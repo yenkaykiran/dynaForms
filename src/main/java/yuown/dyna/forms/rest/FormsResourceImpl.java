@@ -91,6 +91,7 @@ public class FormsResourceImpl {
         List<Form> all = new ArrayList<Form>();
         for (Forms form : db) {
             Form f = xmlUtils.getJAXBObjectFromXMLString(Form.class, form.getTemplate());
+            f.setId(form.getId());
             all.add(f);
         }
         return all;

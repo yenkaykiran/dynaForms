@@ -56,7 +56,8 @@ dynaFormsApp.controller('AddEditFormController', [ '$scope', '$rootScope', 'Ajax
     $scope.restUrl = "forms/";
     
     $scope.init = function() {
-    $scope.attributes = [ {
+        $scope.searchText = "";
+        $scope.attributes = [ {
 							"value" : "type",
 							"displayText" : "Field Type",
 							"attributeValues" : ["text", "password", "date", "email", "number"]

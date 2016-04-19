@@ -70,7 +70,7 @@ dynaFormsApp.factory('AuthenticationService', ['$http', '$cookieStore', '$rootSc
 
 dynaFormsApp.factory('AjaxService', [ '$rootScope', '$http', function($rootScope, $http) {
 	
-	var serverUrl = "/dynaForms-1.0/rest/";
+	var serverUrl = "/dynaForms/rest/";
 	
     return {
         call : function(url, method, params) {

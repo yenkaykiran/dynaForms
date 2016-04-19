@@ -56,19 +56,20 @@
 	                                </md-button>
 		                        </div>
 	                            <md-list flex>
-	                                <md-list-item ng-repeat="attribute in field.attributes">
+	                                <md-list-item ng-repeat="attribute in field.attributes" layout-gt-xs="row">
 	                                    <md-input-container>
 	                                        <label>Attribute</label>
-	                                        <md-select ng-model="attribute.name">
-	                                          <md-option ng-repeat="attributeMeta in attributes" ng-value="attributeMeta.value" ng-init="attributeValues = attributes[$index].attributeValues">
+	                                        <md-select ng-model="attribute.name" ng-init="attributeValues = attributes[$index].attributeValues" ng-click="attributeValues = attributes[$index].attributeValues">
+	                                          <md-option ng-repeat="attributeMeta in attributes" ng-value="attributeMeta.value">
 	                                            {{attributeMeta.displayText}}
 	                                          </md-option>
 	                                        </md-select>
 	                                    </md-input-container>
-	                                    <input class="form-control" type="text" ng-model="attribute.value" list="attrList-{{attribute.name}}" />
-	                                    <datalist id="attrList-{{attribute.name}}">
-	                                        <option ng-repeat="attributeValue in attributeValues" value="{{attributeValue}}">
-	                                    </datalist>
+	                                    <md-autocomplete md-items="attributeValue in attributeValues | filter:searchText" md-search-text="searchText" md-item-text="attributeValue" md-selected-item="attributeValue">
+		                                    <md-item-template>
+	                                            <span md-highlight-text="attributeValue" md-highlight-flags="^i">{{attributeValue}}</span>
+	                                        </md-item-template>
+	                                    </md-autocomplete>
 	                                    <md-button class="md-raised md-warn" ng-click="field.attributes.splice(field.attributes.indexOf(attribute), 1)">Remove Attribute</md-button>
 	                                </md-list-item>
 	                            </md-list>
