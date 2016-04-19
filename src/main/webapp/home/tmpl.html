@@ -1,0 +1,33 @@
+<div flex layout="row" ng-controller="HomeController" style="height: 100%">
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="false">
+		<md-toolbar class="md-theme-indigo">
+			<div class="md-toolbar-tools">
+				<md-button class="md-icon-button" aria-label="Menu" ng-click="toggleLeft()">
+					<i class="material-icons">{{app.icon}}</i>
+				</md-button>
+				<h2><a href="#/" ng-click="toggleLeft()">{{app.name}}</a></h2>
+				<span flex></span>
+			</div>
+		</md-toolbar>
+		<md-content ng-cloak>
+			<md-list>
+	            <md-list-item ng-repeat="link in urls" ng-href="{{link.url}}" ng-click="toggleLeft()">
+					<md-button><md-icon md-svg-icon="{{link.icon}}"></md-icon>  <label>{{link.title}}</label></md-button>
+				</md-list-item>
+	        </md-list>
+		</md-content>
+	</md-sidenav>
+ 
+    <md-content flex id="content">
+        <md-toolbar>
+			<div class="md-toolbar-tools">
+				<md-button class="md-icon-button" aria-label="Menu" ng-click="toggleLeft()">
+					<i class="material-icons">menu</i>
+				</md-button>
+				<h2><a href="#/">{{app.name}}</a></h2><p ng-show="pageTitle">&nbsp;&nbsp;&gt;&nbsp;&nbsp;<span><h3>{{pageTitle}}</h3></span></p>
+				<span flex></span>
+			</div>
+		</md-toolbar>
+        <md-content app-view-segment="1" style="height: 100%" flex></md-content>
+    </md-content>
+</div>

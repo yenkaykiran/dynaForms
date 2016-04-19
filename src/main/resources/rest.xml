@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:component-scan base-package="yuown.dyna.forms.rest" />
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+	        <bean class="org.springframework.http.converter.BufferedImageHttpMessageConverter" />
+	    </mvc:message-converters>
+    </mvc:annotation-driven>
+	<bean name="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+	<bean name="jsonTemplate" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+</beans>
