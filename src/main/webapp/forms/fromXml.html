@@ -1,0 +1,35 @@
+<md-dialog aria-label="Add Form" ng-controller="AddEditXmlFormController" ng-cloak style="width: 100%" ng-init="init()" class="fullscreen-dialog">
+	<form ng-submit="save()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Form from XML</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding>
+		<div class="md-dialog-content" flex>
+		    <div layout-gt-xs="row">
+		        <md-input-container class="md-block" flex-gt-xs>
+	                <label>Form Name</label>
+	                <input ng-model="item.name" type="text" />
+                </md-input-container>
+		    </div>
+		    <md-tabs md-dynamic-height md-border-bottom>
+		      <md-tab label="XML Form">
+		          <div class="md-dialog-content" flex>
+		              <textarea rows="24" ng-model="item.template"></textarea>
+	              </div>
+		      </md-tab>
+		    </md-tabs>
+		</div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button ng-click="cancel()"> Cancel </md-button>
+        <md-button type="submit" style="margin-right:20px;"> Save </md-button>
+    </md-dialog-actions>
+    </form>
+</md-dialog>

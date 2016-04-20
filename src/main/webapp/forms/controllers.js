@@ -31,6 +31,18 @@ dynaFormsApp.controller('FormsController', [ '$scope', '$rootScope', 'AjaxServic
 	    });
 	};
 	
+	$scope.fromXml = function(data, ev) {
+        if(!data) {
+            data = {};
+        }
+        $rootScope.temp = {
+            item : data
+        };
+        $scope.openAsDialog('forms/fromXml.html', ev, function() {
+            $scope.load();
+        });
+    };
+	
 	$scope.deleteItem = function(item, $event) {
 		$scope.confirmDialog({
 			title: 'Are you sure to delete this ?',
@@ -120,6 +132,27 @@ dynaFormsApp.controller('AddEditFormController', [ '$scope', '$rootScope', 'Ajax
     $scope.save = function() {
         AjaxService.call($scope.restUrl, 'POST', $scope.item).success(function(data, status, headers, config) {
         	$scope.item = data;
+        });
+    };
+    
+} ]);
+
+dynaFormsApp.controller('AddEditXmlFormController', [ '$scope', '$rootScope', 'AjaxService', '$controller', function($scope, $rootScope, AjaxService, $controller) {
+    'use strict';
+    
+    $controller('BaseController', {
+        $scope : $scope
+    });
+    
+    $scope.restUrl = "forms/";
+    
+    $scope.init = function() {        
+        $scope.item = $rootScope.temp.item;
+    };
+    
+    $scope.save = function() {
+        AjaxService.call($scope.restUrl + '/xml', 'POST', $scope.item).success(function(data, status, headers, config) {
+            $scope.item = data;
         });
     };
     
