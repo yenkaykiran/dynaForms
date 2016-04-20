@@ -42,6 +42,18 @@ dynaFormsApp.controller('FormsController', [ '$scope', '$rootScope', 'AjaxServic
             $scope.load();
         });
     };
+    
+    $scope.extractHtml = function(data, ev) {
+        if(!data) {
+            data = {};
+        }
+        $rootScope.temp = {
+            item : data
+        };
+        $scope.openAsDialog('forms/extractHtml.html', ev, function() {
+            $scope.load();
+        });
+    };
 	
 	$scope.deleteItem = function(item, $event) {
 		$scope.confirmDialog({
@@ -151,9 +163,46 @@ dynaFormsApp.controller('AddEditXmlFormController', [ '$scope', '$rootScope', 'A
     };
     
     $scope.save = function() {
-        AjaxService.call($scope.restUrl + '/xml', 'POST', $scope.item).success(function(data, status, headers, config) {
+        AjaxService.call($scope.restUrl, 'POST', $scope.item).success(function(data, status, headers, config) {
             $scope.item = data;
         });
+    };
+    
+} ]);
+
+dynaFormsApp.controller('ExtractHtmlFormController', [ '$scope', '$rootScope', 'AjaxService', '$controller', '$sce', function($scope, $rootScope, AjaxService, $controller, $sce) {
+    'use strict';
+    
+    $controller('BaseController', {
+        $scope : $scope
+    });
+    
+    $scope.restUrl = "forms/";
+    
+    $scope.init = function() {        
+        $scope.item = $rootScope.temp.item;
+        AjaxService.call($scope.restUrl + 'html/' + $scope.item.id, 'GET').success(function(data, status, headers, config) {
+        	$scope.item.html = data;
+        	$scope.item.trustedHtml = $sce.trustAsHtml(data);
+        });
+    };
+    
+    $scope.launch = function() {
+        var html = "<html><head><title>" + ($scope.item.title || '') + "</title></head><body>" + $scope.item.html + "</body></html>";
+		var winPrint = window.open('', '', '');
+		winPrint.document.write(html);
+		winPrint.document.close();
+		winPrint.focus();
+		$scope.cancel();
+    };
+    
+    $scope.saveHTML = function() {
+    	var html = "<html><head><title>" + ($scope.item.title || '') + "</title></head><body>" + $scope.item.html + "</body></html>";
+    	var blob = new Blob([html], { type:"text/html;charset=utf-8;" });			
+		var downloadLink = angular.element('<a></a>');
+		downloadLink.attr('href',window.URL.createObjectURL(blob));
+        downloadLink.attr('download', ($scope.item.title || $scope.item.name || 'New HTML') + ".html");
+		downloadLink[0].click();
     };
     
 } ]);

@@ -158,7 +158,7 @@
                             </includes>
                         </resource>
                     </webResources>
-                    <outputDirectory>/Users/kirannk/Development/apache-tomcat-8.0.23/webapps/</outputDirectory>
+                    <outputDirectory>C:\Kiran\Installed\apache-tomcat-6.0.41\webapps</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>
@@ -166,8 +166,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                 </configuration>
             </plugin>
         </plugins>
