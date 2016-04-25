@@ -12,38 +12,5 @@
 
     <import resource="classpath:common-application-context.xml" />
     
-    <bean id="dataSource"
-        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="url" value="${dataSource.url}" />
-        <property name="username" value="${dataSource.username}" />
-        <property name="password" value="${dataSource.password}" />
-        <property name="driverClassName" value="${dataSource.driver}" />
-    </bean>
-
-    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-        <property name="showSql" value="true" />
-        <property name="generateDdl" value="false" />
-        <property name="database" value="${dataSource.dbtype}" />
-    </bean>
-
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
-        <property name="persistenceUnitName" value="bssPersistenceUnit" />
-        <!-- spring based scanning for entity classes -->
-        <property name="packagesToScan">
-            <list>
-                <value>yuown.dyna.forms.model.entity</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory" />
-    </bean>
-
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
-    <jpa:repositories base-package="yuown.dyna.forms.repository" entity-manager-factory-ref="entityManagerFactory" />
-    
     <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" scope="singleton" />
 </beans>
