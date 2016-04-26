@@ -156,6 +156,10 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
     	}
     };
     
+    $scope.exportXml = function($event) {
+        window.open("data:text/xml;charset=utf-8," + escape($scope.modXml));
+    };
+    
 } ]);
 
 dynaFormsApp.controller('LeftController', [ '$scope', '$timeout', '$mdSidenav', function($scope, $timeout, $mdSidenav) {
@@ -179,3 +183,30 @@ dynaFormsApp.controller('DefaultController', [ '$scope', '$timeout', '$mdSidenav
     };
 	
 } ]);
+
+angular.module('dynaFormsApp').directive('xmlReader', function() {
+    return {
+        scope : {
+            xmlReader : "=",
+            postread : "&"
+        },
+        link : function(scope, element) {
+            angular.element(element).on('change', function(changeEvent) {
+                var files = changeEvent.target.files;
+                if (files.length == 1) {
+                    var r = new FileReader();
+                    r.onload = function(e) {
+                        var contents = e.target.result;
+                        scope.$apply(function() {
+                            scope.xmlReader = contents;
+                            files[0]='';
+                        });
+                    };
+                    r.readAsText(files[0]);
+                } else {
+                    alert("Please Select only one XML File to Import");
+                }
+            });
+        }
+    };
+});

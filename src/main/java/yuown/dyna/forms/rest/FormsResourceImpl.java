@@ -68,7 +68,7 @@ public class FormsResourceImpl {
     public ResponseEntity<String> getXmlFromNodes(@RequestBody yuown.dyna.forms.model.Node node) {
         HttpHeaders headers = new HttpHeaders();
         try {
-            String xml = getNodeContents(node);
+            String xml = extractXmlFromNode(node);
             return new ResponseEntity<String>(xml, headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -165,10 +165,12 @@ public class FormsResourceImpl {
                     n.setTitle(node.getNodeName());
                     n.setValue(node.getTextContent());
                     n.addNodes(getAttributesNodes(node.getAttributes()));
-                    if (node.getChildNodes().getLength() > 1) {
-                        n.setContainer(true);
-                        n.setValue(null);
-                        n.addNodes(getContentNodes(node));
+                    if (node.getChildNodes().getLength() > 0) {
+                    	if (node.getChildNodes().getLength() > 1) {
+	                        n.setContainer(true);
+	                        n.setValue(null);
+	                        n.addNodes(getContentNodes(node));
+                    	}
                     }
                     content.add(n);
                 }
@@ -178,8 +180,8 @@ public class FormsResourceImpl {
     }
 
     private String extractXmlFromNode(yuown.dyna.forms.model.Node node) {
-        String main = "<" + node.getTitle() + " " + getNodeAttributes(node) + ">";
-        main += getNodeContents(node);
+        String main = "<" + node.getTitle() + " " + getNodeAttributes(node) + ">" + "\n";
+        main += getNodeContents(node) + "\n";
         main += "</" + node.getTitle() + ">";
         return main;
     }
@@ -190,13 +192,17 @@ public class FormsResourceImpl {
         if (null != subs && subs.size() > 0) {
             for (int i = 0; i < subs.size(); i++) {
                 yuown.dyna.forms.model.Node sub = subs.get(i);
-                content += "<" + node.getTitle() + " " + getNodeAttributes(sub) + ">";
-                if (getNodeCount(sub) > 0) {
-                    content += getNodeContents(sub);
+                if (sub.getContainer() == true) {
+                	content += "<" + sub.getTitle() + " " + getNodeAttributes(sub) + ">" + "\n";
+                    content += getNodeContents(sub) + "\n";
+                    content += "</" + sub.getTitle() + ">";
                 } else {
-                    content += sub.getValue();
+                	if(sub.getAttribute() == false) {
+	                	content += "<" + sub.getTitle() + " " + getNodeAttributes(sub) + ">" + "\n";
+	                    content += sub.getValue();
+	                    content += "</" + sub.getTitle() + ">";
+                	}
                 }
-                content += "</" + node.getTitle() + ">";
             }
         }
         return content;
@@ -208,23 +214,10 @@ public class FormsResourceImpl {
         if (null != atts && atts.size() > 0) {
             for (int i = 0; i < atts.size(); i++) {
                 if (atts.get(i).getAttribute() == true) {
-                    attributeContent += atts.get(i).getTitle() + "=" + atts.get(i).getValue() + " ";
+                    attributeContent += atts.get(i).getTitle() + "='" + atts.get(i).getValue() + "' ";
                 }
             }
         }
         return attributeContent.trim();
-    }
-
-    private int getNodeCount(yuown.dyna.forms.model.Node node) {
-        int count = 0;
-        List<yuown.dyna.forms.model.Node> sub = node.getNodes();
-        if (null != sub && sub.size() > 0) {
-            for (int i = 0; i < sub.size(); i++) {
-                if (sub.get(i).getContainer() == true) {
-                    count++;
-                }
-            }
-        }
-        return count;
     }
 }

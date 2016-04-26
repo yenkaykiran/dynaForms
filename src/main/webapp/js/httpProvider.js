@@ -5,12 +5,6 @@ dynaFormsApp.factory('HttpInterceptor', [ '$q', '$location', '$rootScope', funct
                $rootScope.errorMessage = response.headers("errorMessage");
                return $q.reject(response);
            }
-//           else if (response.status === 401) {
-//               // redirect them back to login page
-//               $location.path('/login');
-//
-//               return $q.reject(response);
-//           }
            else {
                return $q.reject(response);
            }

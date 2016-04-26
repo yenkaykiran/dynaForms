@@ -20,7 +20,11 @@
             <md-button ng-click="saveHTML()" style="margin-right:20px;" ng-disabled="!html"> Save As HTML </md-button>
             <md-button ng-click="launch()" style="margin-right:20px;" ng-disabled="!html"> Launch HTML in New Window </md-button>
             <md-button ng-click="html2Xml()" style="margin-right:20px;" ng-disabled="!html"> Convert to XML </md-button>
-            <input id="picker" type="file" style="display:none;" xml-reader="xml" />
+            <md-button class="md-fab md-primary md-hue-2" aria-label="Save XML Content" ng-disabled="!modXml" ng-click="exportXml($event)">
+                <i class="material-icons">file_download</i>
+                <md-tooltip>Save XML Content to File</md-tooltip>
+            </md-button>
+            <input id="picker" type="file" style="display:none;" accept="application/xml,text/xml" xml-reader="xml" />
             <md-tabs  md-dynamic-height md-border-bottom>
                <md-tab label="Original XML Content">
                 <md-input-container class="md-block" flex-gt-xs>
@@ -52,7 +56,7 @@
                   </div>
                </md-tab>
                <md-tab label="HTML Preview" ng-disabled="!html">
-                <div ng-bind-html="trustedHtml"></div>
+                <div style="overflow-y: auto" ng-bind-html="trustedHtml"></div>
                </md-tab>
                <md-tab label="Modified XML" ng-disabled="!modXml">
                 <md-input-container class="md-block" flex-gt-xs>
