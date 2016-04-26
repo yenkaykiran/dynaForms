@@ -6,11 +6,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Node implements Serializable {
+public class Node implements Serializable, Cloneable {
 
     private List<Node> nodes = new ArrayList<Node>();
 
     private boolean container = false;
+    
+    private boolean attribute = false;
 
     private String title;
 
@@ -29,7 +31,13 @@ public class Node implements Serializable {
     }
 
     public void addNodes(List<Node> nodes) {
-        nodes.addAll(nodes);
+        for (Node node : nodes) {
+            try {
+                this.nodes.add((Node)node.clone());
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public boolean isContainer() {
@@ -42,6 +50,18 @@ public class Node implements Serializable {
 
     public void setContainer(boolean container) {
         this.container = container;
+    }
+
+    public boolean isAttribute() {
+        return attribute;
+    }
+    
+    public boolean getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(boolean attribute) {
+        this.attribute = attribute;
     }
 
     public String getTitle() {

@@ -11,86 +11,90 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
     
     $scope.restUrl = "forms/";
     
+    $scope.nodes = {};
+    $scope.modXml = '';
+    
     $scope.xml2Html = function() {
     	var request = {
     		"xml" : $scope.xml
     	};
     	$scope.trustedHtml = '';
-//        AjaxService.call($scope.restUrl + 'html/', 'POST', request).success(function(data, status, headers, config) {
-//        	$scope.html = data;
-//        	$scope.trustedHtml = $sce.trustAsHtml(data);
-//        });
         AjaxService.call($scope.restUrl + 'nodes', 'POST', request).success(function(data, status, headers, config) {
         	$scope.nodes = data;
-        	$scope.html = extractHtmlFromXml($scope.nodes);
-        	$scope.trustedHtml = $sce.trustAsHtml($scope.html);
+        	$scope.nodesToDOM();
         });
-        
-        $scope.add = function(parent, node) {
-            
-        };
-        
-        $scope.remove = function(parent, node) {
-            var idx = parent.indexOf(node);
-            if(idx > -1) {
-                parent.splice(idx, 1);
-            }
-        };
-        
-        function extractHtmlFromXml(node) {
-            var main = "";
-            main += "<div>";
-            main += "<fieldset>";
-            main += "<legend>" + node.title + "</legend>";
-            main += getContent(node.nodes);
-            main += "</fieldset>";
-            main += "</div>";
-            return main;
-        }
+    };
+    
+    $scope.html2Xml = function() {
+    	$scope.modXml = '';
+        AjaxService.call($scope.restUrl + 'xml', 'POST', $scope.nodes).success(function(data, status, headers, config) {
+        	$scope.modXml = data;
+        });
+    };
+    
+    $scope.newSubItem = function(scope) {
+		var parent = scope.$parent.$parent.$modelValue;
+		var nodeData = angular.copy(scope.$modelValue);
+		parent.splice(parent.indexOf(scope.$modelValue), 0, {
+			title : nodeData.title,
+			value: nodeData.value,
+			container: nodeData.container, 
+			attribute: nodeData.attribute,
+			nodes : nodeData.nodes
+		});
+		$scope.nodesToDOM();
+	};
+	
+	$scope.remove = function (scope) {
+		scope.remove();
+		$scope.nodesToDOM();
+	};
+    
+    $scope.nodesToDOM = function(){
+    	$scope.html = extractHtmlFromXml($scope.nodes);
+    	$scope.trustedHtml = $sce.trustAsHtml($scope.html);
+    };
+    
+    function extractHtmlFromXml(node) {
+        var main = "";
+        main += "<div>";
+        main += "<fieldset>";
+        main += "<legend>" + node.title + "</legend>";
+        main += getContent(node.nodes);
+        main += "</fieldset>";
+        main += "</div>";
+        return main;
+    }
 
-        function getContent(nodes) {
-            var content = "";
-            var nodeCount = nodes.length;
-            for (var i = 0; i < nodeCount; i++) {
-                var node = nodes[i];
-                if (node && node.nodes.length > 0) {
-                    if (node.container == true ) {
-                        content += "<div>";
-                        content += "<fieldset>";
-                        content += "<legend>" + node.title;
-                        content += "<md-button ng-click='add(node.nodes, node)'> + </md-button>";
-                        content += "<md-button ng-click='remove(node.nodes, node)'> - </md-button>";
-                        content += "</legend>";
-                    }
-                    content += getContent(node.nodes);
-                    if (node.container== true) {
-                        content += "</fieldset>";
-                        content += "</div>";
-                    }
-                } else {
-                	if(node.title) {
-                        content += "<span>";
-                        content += "<label>" + node.title + ": </label>";
-                        content += "<input type='text' value='" + node.value + "' name='" + node.title + "' />";
-                        content += "<md-button ng-click='add(node.nodes, node)'> + </md-button>";
-                        content += "<md-button ng-click='remove(node.nodes, node)'> - </md-button>";
-                        content += "</span><br/>";
-                	}
+    function getContent(nodes) {
+        var content = "";
+        var nodeCount = nodes.length;
+        for (var i = 0; i < nodeCount; i++) {
+            var node = nodes[i];
+            if (node && node.nodes.length > 0) {
+                if (node.container == true ) {
+                    content += "<div>";
+                    content += "<fieldset>";
+                    content += "<legend>" + node.title;
+                    content += "</legend>";
                 }
+                content += getContent(node.nodes);
+                if (node.container== true) {
+                    content += "</fieldset>";
+                    content += "</div>";
+                }
+            } else {
+            	if(node.title) {
+                    content += "<span>";
+                    content += "<label>" + node.title + ": </label>";
+                    content += "<input type='text' value='" + node.value + "' name='" + node.title + "' />";
+                    content += "</span><br/>";
+            	}
             }
-            return content;
         }
+        return content;
+    }
 
-    };
-    
-    $scope.add = function() {
-    	console.log('Add');
-    };
-    
-    $scope.remove = function() {
-    	console.log('Remove');
-    };
-    
     $scope.launch = function() {
     	if(!$scope.html || !$scope.html.trim().length > 0) {
     	    $scope.confirmDialog({
@@ -148,16 +152,3 @@ dynaFormsApp.controller('DefaultController', [ '$scope', '$timeout', '$mdSidenav
     };
 	
 } ]);
-
-dynaFormsApp.directive('dynamic', function ($compile) {
-    return {
-      restrict: 'A',
-      replace: true,
-      link: function (scope, ele, attrs) {
-        scope.$watch(attrs.dynamic, function(html) {
-          ele.html(html);
-          $compile(ele.contents())(scope);
-        });
-      }
-    };
-  });

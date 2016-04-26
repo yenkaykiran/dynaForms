@@ -18,6 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -57,6 +58,20 @@ public class FormsResourceImpl {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<yuown.dyna.forms.model.Node>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/xml", produces = { MediaType.TEXT_HTML_VALUE })
+    @ResponseBody
+    public ResponseEntity<String> getXmlFromNodes(@RequestBody yuown.dyna.forms.model.Node node) {
+        HttpHeaders headers = new HttpHeaders();
+        try {
+            String xml = getNodeContents(node);
+            return new ResponseEntity<String>(xml, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -128,6 +143,7 @@ public class FormsResourceImpl {
             yuown.dyna.forms.model.Node a = new yuown.dyna.forms.model.Node();
             a.setTitle(attributes.item(i).getNodeName());
             a.setContainer(false);
+            a.setAttribute(true);
             a.setValue(attributes.item(i).getNodeValue());
             atts.addNode(a);
         }
@@ -158,5 +174,56 @@ public class FormsResourceImpl {
             }
         }
         return content;
+    }
+
+    private String extractXmlFromNode(yuown.dyna.forms.model.Node node) {
+        String main = "<" + node.getTitle() + " " + getNodeAttributes(node) + ">";
+        main += getNodeContents(node);
+        main += "</" + node.getTitle() + ">";
+        return main;
+    }
+
+    private String getNodeContents(yuown.dyna.forms.model.Node node) {
+        String content = "";
+        List<yuown.dyna.forms.model.Node> subs = node.getNodes();
+        if (null != subs && subs.size() > 0) {
+            for (int i = 0; i < subs.size(); i++) {
+                yuown.dyna.forms.model.Node sub = subs.get(i);
+                content += "<" + node.getTitle() + " " + getNodeAttributes(sub) + ">";
+                if (getNodeCount(sub) > 0) {
+                    content += getNodeContents(sub);
+                } else {
+                    content += sub.getValue();
+                }
+                content += "</" + node.getTitle() + ">";
+            }
+        }
+        return content;
+    }
+
+    private String getNodeAttributes(yuown.dyna.forms.model.Node node) {
+        String attributeContent = "";
+        List<yuown.dyna.forms.model.Node> atts = node.getNodes();
+        if (null != atts && atts.size() > 0) {
+            for (int i = 0; i < atts.size(); i++) {
+                if (atts.get(i).getAttribute() == true) {
+                    attributeContent += atts.get(i).getTitle() + "=" + atts.get(i).getValue() + " ";
+                }
+            }
+        }
+        return attributeContent.trim();
+    }
+
+    private int getNodeCount(yuown.dyna.forms.model.Node node) {
+        int count = 0;
+        List<yuown.dyna.forms.model.Node> sub = node.getNodes();
+        if (null != sub && sub.size() > 0) {
+            for (int i = 0; i < sub.size(); i++) {
+                if (sub.get(i).getContainer() == true) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 }
