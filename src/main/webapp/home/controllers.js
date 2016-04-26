@@ -71,43 +71,37 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
     	$scope.trustedHtml = $sce.trustAsHtml($scope.html);
     };
     
-    function extractHtmlFromXml(node) {
+    function extractHtmlFromXml(nodes) {
         var main = "";
         main += "<div>";
         main += "<fieldset>";
-        main += "<legend>" + node.title + "</legend>";
-        main += getContent(node);
-        main += getAttributesContent(node);
+        main += "<legend>" + nodes.title + "</legend>";
+        main += getContent(nodes);
         main += "</fieldset>";
         main += "</div>";
         return main;
     }
 
-    function getContent(parent) {
+    function getContent(nodes) {
         var content = "";
-        var nodes = parent.nodes;
-        var nodeCount = nodes.length;
+        var nodeCount = nodes.nodes.length;
         for (var i = 0; i < nodeCount; i++) {
-            var node = nodes[i];
-            if (node && node.nodes.length > 0) {
-                if (node.container == true ) {
+        	var node = nodes.nodes[i];
+            if (node) {
+                if (node.container == true) {
                     content += "<div>";
                     content += "<fieldset>";
                     content += "<legend>" + node.title + "</legend>";
-                }
-                content += getContent(node);
-                content += getAttributesContent(node.nodes);
-                if (node.container== true) {
+                    content += getContent(node);
                     content += "</fieldset>";
                     content += "</div>";
-                }
-            } else {
-            	if(node.title && node.attribute == false) {
-                    content += "<span>";
+                } else {
+                	content += "<span>";
                     content += "<label>" + node.title + ": </label>";
-                    content += "<input type='text' value='" + node.value + "' name='" + node.title + "' />";
+                    content += "<input type='text' value='" + node.value + "' name='" + node.title + "' /><br/>";
+                    content += getAttributesContent(node);
                     content += "</span><br/>";
-            	}
+                }
             }
         }
         return content;
