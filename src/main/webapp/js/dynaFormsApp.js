@@ -1,1 +1,1 @@
-var dynaFormsApp = angular.module("dynaFormsApp", [ 'ngMaterial', 'ngRoute', 'route-segment', 'view-segment', 'ngCookies', 'ui.sortable' ]);
+var dynaFormsApp = angular.module("dynaFormsApp", [ 'ngMaterial', 'ngRoute', 'route-segment', 'view-segment', 'ngCookies', 'ui.sortable', 'ui.tree' ]);

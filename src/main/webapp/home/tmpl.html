@@ -28,37 +28,36 @@
                </md-tab>
                <md-tab label="HTML Preview" ng-disabled="!html">
                   <div class="md-dialog-content" flex>
-                    <div>
-                        <script type="text/ng-template" id="node_renderer.html">
+                    <script type="text/ng-template" id="nodes_renderer.html">
+                        <div ui-tree-handle class="tree-node tree-node-content">
                             <div ng-if="node.nodes">
-                                <fieldset ng-repeat="node in node.nodes" ng-include="'node_renderer.html'">
-                                    <legend>{{node.title}}</legend>
+                                <fieldset ng-if="node.nodes.length > 1">
+                                    <legend>{{node.title}}
+                                    </legend>
                                     <span>
-                                        <input type="text" value="{{node.value}}" name="{{node.title}}" />
+                                        <span ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
+                                            <label>{{node.title}}: </label><input type="text" value="{{node.value}}" name="{{node.name}}"><button class="md-button md-ink-ripple" type="button" ng-click="newSubItem(this)"><span class="ng-scope"> + </span></button><button class="md-button md-ink-ripple" type="button" ng-click="remove(this)"><span class="ng-scope"> - </span></button>
+                                            <br />
+                                        </span>
                                     </span>
                                 </fieldset>
+                                <span>
+                                    <span ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
+                                        <label>{{node.title}}: </label><input type="text" value="{{node.value}}" name="{{node.name}}"><button class="md-button md-ink-ripple" type="button" ng-click="newSubItem(this)"><span class="ng-scope"> + </span></button><button class="md-button md-ink-ripple" type="button" ng-click="remove(this)"><span class="ng-scope"> - </span></button>
+                                        <br />
+                                    </span>
+                                </span>
                             </div>
-                        </script>
-                        <fieldset>
-                            <legend>{{nodes.title}}</legend>
-                            <span ng-repeat="node in nodes.nodes">
-                                <label>{{node[0].title}}: </label>
-                                <input type="text" value="{{node[0].value}}" name="{{node[0].title}}" />
+                        </div>
+                    </script>
+                    <div ui-tree id="tree-root">
+                        <span ui-tree-nodes ng-model="nodes">
+                            <span ng-repeat="node in nodes.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
+                                <label>{{node.title}}: </label><input type="text" value="{{node.value}}" name="{{node.name}}"><button class="md-button md-ink-ripple" type="button" ng-click="newSubItem(this)"><span class="ng-scope"> + </span></button><button class="md-button md-ink-ripple" type="button" ng-click="remove(this)"><span class="ng-scope"> - </span></button>
                                 <br />
                             </span>
-                        </fieldset>
+                        </span>
                     </div>
-                    <div>
-                        <script type="text/ng-template" id="field_renderer.html">
-                            {{node.title}}
-                            <ul ng-if="node.nodes">
-                                <li ng-repeat="node in node.nodes" ng-include="'field_renderer.html'"></li>
-                            </ul>
-                        </script>
-                        <ul>
-                            <li ng-repeat="node in nodes.nodes" ng-include="'field_renderer.html'"></li>
-                        </ul>
-			        </div>
                   </div>
                </md-tab>
             </md-tabs>

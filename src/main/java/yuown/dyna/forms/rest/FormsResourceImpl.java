@@ -157,7 +157,6 @@ public class FormsResourceImpl {
                 }
             }
         }
-        System.out.println(content);
         return content;
     }
 }

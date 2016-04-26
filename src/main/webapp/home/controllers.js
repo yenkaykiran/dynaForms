@@ -26,21 +26,15 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
         	$scope.trustedHtml = $sce.trustAsHtml($scope.html);
         });
         
-        $scope.getAtts = function(node) {
-        	var atts = [];
-        	if(node && node.nodes) {
-	        	for(var i=0;i<node.nodes.length;i++) {
-	        		if(node.nodes[i].container==false) {
-	        			atts.push(node.nodes[i]);
-	        		}
-	        	}
-        	}
-        	return atts;
+        $scope.add = function(parent, node) {
+            
         };
         
-        $scope.getValue = function(node) {
-        	console.log(JSON.toString(node));
-        	return node.value;
+        $scope.remove = function(parent, node) {
+            var idx = parent.indexOf(node);
+            if(idx > -1) {
+                parent.splice(idx, 1);
+            }
         };
         
         function extractHtmlFromXml(node) {
@@ -63,7 +57,10 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
                     if (node.container == true ) {
                         content += "<div>";
                         content += "<fieldset>";
-                        content += "<legend>" + node.title + "</legend>";
+                        content += "<legend>" + node.title;
+                        content += "<md-button ng-click='add(node.nodes, node)'> + </md-button>";
+                        content += "<md-button ng-click='remove(node.nodes, node)'> - </md-button>";
+                        content += "</legend>";
                     }
                     content += getContent(node.nodes);
                     if (node.container== true) {
@@ -75,7 +72,9 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
                         content += "<span>";
                         content += "<label>" + node.title + ": </label>";
                         content += "<input type='text' value='" + node.value + "' name='" + node.title + "' />";
-                        content += "</span>";
+                        content += "<md-button ng-click='add(node.nodes, node)'> + </md-button>";
+                        content += "<md-button ng-click='remove(node.nodes, node)'> - </md-button>";
+                        content += "</span><br/>";
                 	}
                 }
             }
@@ -150,29 +149,15 @@ dynaFormsApp.controller('DefaultController', [ '$scope', '$timeout', '$mdSidenav
 	
 } ]);
 
-angular.module('dynaFormsApp').directive('xmlReader', function() {
+dynaFormsApp.directive('dynamic', function ($compile) {
     return {
-        scope : {
-            xmlReader : "=",
-            postread : "&"
-        },
-        link : function(scope, element) {
-            angular.element(element).on('change', function(changeEvent) {
-                var files = changeEvent.target.files;
-                if (files.length == 1) {
-                    var r = new FileReader();
-                    r.onload = function(e) {
-                        var contents = e.target.result;
-                        scope.$apply(function() {
-                            scope.xmlReader = contents;
-                            files[0]='';
-                        });
-                    };
-                    r.readAsText(files[0]);
-                } else {
-                    alert("Please Select only one XML File to Import");
-                }
-            });
-        }
+      restrict: 'A',
+      replace: true,
+      link: function (scope, ele, attrs) {
+        scope.$watch(attrs.dynamic, function(html) {
+          ele.html(html);
+          $compile(ele.contents())(scope);
+        });
+      }
     };
-});
+  });
