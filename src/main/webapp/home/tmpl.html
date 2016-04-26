@@ -35,7 +35,7 @@
                                 <label ng-if="node.title">{{node.title}}: </label>
                                 <input type='text' value='{{node.value}}' ng-model='node.value' name='{{node.title}}' ng-if="node.value" ng-change="nodesToDOM()"/>
                                 <md-button data-nodrag ng-click="newSubItem(this)"> + </md-button>
-                                <md-button data-nodrag ng-click="remove(this)"> - </md-button>
+                                <md-button data-nodrag ng-click="removeSubItem(this)"> - </md-button>
                             </span>
                         </div>
                         <dl ui-tree-nodes="" ng-model="node.nodes">

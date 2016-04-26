@@ -35,18 +35,34 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
     $scope.newSubItem = function(scope) {
 		var parent = scope.$parent.$parent.$modelValue;
 		var nodeData = angular.copy(scope.$modelValue);
-		parent.splice(parent.indexOf(scope.$modelValue), 0, {
-			title : nodeData.title,
-			value: nodeData.value,
-			container: nodeData.container, 
-			attribute: nodeData.attribute,
-			nodes : nodeData.nodes
-		});
+		if(!scope.$modelValue) {
+			nodeData = angular.copy(parent.nodes[scope.$index]);
+			parent.nodes.splice(scope.$index, 0, {
+				title : nodeData.title,
+				value: nodeData.value,
+				container: nodeData.container, 
+				attribute: nodeData.attribute,
+				nodes : nodeData.nodes
+			});
+		} else {
+			parent.splice(parent.indexOf(scope.$modelValue), 0, {
+				title : nodeData.title,
+				value: nodeData.value,
+				container: nodeData.container, 
+				attribute: nodeData.attribute,
+				nodes : nodeData.nodes
+			});
+		}
 		$scope.nodesToDOM();
 	};
 	
-	$scope.remove = function (scope) {
-		scope.remove();
+	$scope.removeSubItem = function (scope) {
+		if(!scope.$modelValue) {
+			var parent = scope.$parent.$parent.$modelValue;
+			parent.nodes.splice(scope.$index, 1);
+		} else {
+			scope.remove();
+		}
 		$scope.nodesToDOM();
 	};
     
@@ -60,14 +76,16 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
         main += "<div>";
         main += "<fieldset>";
         main += "<legend>" + node.title + "</legend>";
-        main += getContent(node.nodes);
+        main += getContent(node);
+        main += getAttributesContent(node);
         main += "</fieldset>";
         main += "</div>";
         return main;
     }
 
-    function getContent(nodes) {
+    function getContent(parent) {
         var content = "";
+        var nodes = parent.nodes;
         var nodeCount = nodes.length;
         for (var i = 0; i < nodeCount; i++) {
             var node = nodes[i];
@@ -75,16 +93,16 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
                 if (node.container == true ) {
                     content += "<div>";
                     content += "<fieldset>";
-                    content += "<legend>" + node.title;
-                    content += "</legend>";
+                    content += "<legend>" + node.title + "</legend>";
                 }
-                content += getContent(node.nodes);
+                content += getContent(node);
+                content += getAttributesContent(node.nodes);
                 if (node.container== true) {
                     content += "</fieldset>";
                     content += "</div>";
                 }
             } else {
-            	if(node.title) {
+            	if(node.title && node.attribute == false) {
                     content += "<span>";
                     content += "<label>" + node.title + ": </label>";
                     content += "<input type='text' value='" + node.value + "' name='" + node.title + "' />";
@@ -93,6 +111,21 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
             }
         }
         return content;
+    }
+    
+    function getAttributesContent(node) {
+        var attributeContent = "";
+        var attributes = node.nodes;
+        for (var i = 0; i < attributes.length; i++) {
+        	var att = attributes[i];
+        	if(att.attribute == true) {
+	            attributeContent += "<span>";
+	            attributeContent += "<label>" + att.title + ": </label>";
+	            attributeContent += "<input type='text' value='" + att.value + "' name='" + att.title + "' />";
+	            attributeContent += "</span><br/>";
+        	}
+        }
+        return attributeContent;
     }
 
     $scope.launch = function() {

@@ -18,6 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -132,44 +133,44 @@ public class FormsResourceImpl {
         yuown.dyna.forms.model.Node n = new yuown.dyna.forms.model.Node();
         n.setContainer(true);
         n.setTitle(element.getNodeName());
-        n.addNode(getAttributesNodes(element.getAttributes()));
-        n.addNode(getContentNodes(element.getChildNodes()));
+        n.addNodes(getAttributesNodes(element.getAttributes()));
+        n.addNodes(getContentNodes(element));
         return n;
     }
 
-    private yuown.dyna.forms.model.Node getAttributesNodes(NamedNodeMap attributes) {
-        yuown.dyna.forms.model.Node atts = new yuown.dyna.forms.model.Node();
-        for (int i = 0; i < attributes.getLength(); i++) {
-            yuown.dyna.forms.model.Node a = new yuown.dyna.forms.model.Node();
-            a.setTitle(attributes.item(i).getNodeName());
-            a.setContainer(false);
-            a.setAttribute(true);
-            a.setValue(attributes.item(i).getNodeValue());
-            atts.addNode(a);
+    private List<yuown.dyna.forms.model.Node> getAttributesNodes(NamedNodeMap attributes) {
+        List<yuown.dyna.forms.model.Node> atts = new ArrayList<yuown.dyna.forms.model.Node>();
+        if (null != attributes) {
+            for (int i = 0; i < attributes.getLength(); i++) {
+                yuown.dyna.forms.model.Node a = new yuown.dyna.forms.model.Node();
+                a.setTitle(attributes.item(i).getNodeName());
+                a.setContainer(false);
+                a.setAttribute(true);
+                a.setValue(attributes.item(i).getNodeValue());
+                atts.add(a);
+            }
         }
         return atts;
     }
 
-    private yuown.dyna.forms.model.Node getContentNodes(NodeList nodes) {
-        yuown.dyna.forms.model.Node content = new yuown.dyna.forms.model.Node();
-        int nodeCount = nodes.getLength();
-        for (int i = 0; i < nodeCount; i++) {
-            Node node = nodes.item(i);
-            yuown.dyna.forms.model.Node n = new yuown.dyna.forms.model.Node();
-            if (node.getChildNodes().getLength() > 0) {
-                if (node.getChildNodes().getLength() > 1) {
-                    n.setContainer(true);
-                    n.setTitle(node.getNodeName());
-                }
-                n.addNode(getAttributesNodes(node.getAttributes()));
-                n.addNode(getContentNodes(node.getChildNodes()));
-                content.addNode(n);
-            } else {
+    private List<yuown.dyna.forms.model.Node> getContentNodes(Node element) {
+        List<yuown.dyna.forms.model.Node> content = new ArrayList<yuown.dyna.forms.model.Node>();
+        NodeList list = element.getChildNodes();
+        if (list != null && list.getLength() > 0) {
+            int nodeCount = list.getLength();
+            for (int i = 0; i < nodeCount; i++) {
+                Node node = list.item(i);
                 if (StringUtils.isNotBlank(node.getTextContent())) {
-                    n.setTitle(node.getParentNode().getNodeName());
+                    yuown.dyna.forms.model.Node n = new yuown.dyna.forms.model.Node();
+                    n.setTitle(node.getNodeName());
                     n.setValue(node.getTextContent());
-                    n.setContainer(false);
-                    content.addNode(n);
+                    n.addNodes(getAttributesNodes(node.getAttributes()));
+                    if (node.getChildNodes().getLength() > 1) {
+                        n.setContainer(true);
+                        n.setValue(null);
+                        n.addNodes(getContentNodes(node));
+                    }
+                    content.add(n);
                 }
             }
         }
