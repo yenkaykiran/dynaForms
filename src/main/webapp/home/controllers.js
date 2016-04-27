@@ -157,7 +157,11 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
     };
     
     $scope.exportXml = function($event) {
-        window.open("data:text/xml;charset=utf-8," + escape($scope.modXml));
+    	var blob = new Blob([$scope.modXml], { type:"text/xml;charset=utf-8;" });			
+		var downloadLink = angular.element('<a></a>');
+		downloadLink.attr('href',window.URL.createObjectURL(blob));
+        downloadLink.attr('download', "New XML.xml");
+		downloadLink[0].click();
     };
     
 } ]);
