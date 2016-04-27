@@ -160,7 +160,7 @@ public class FormsResourceImpl {
             int nodeCount = list.getLength();
             for (int i = 0; i < nodeCount; i++) {
                 Node node = list.item(i);
-                if (StringUtils.isNotBlank(node.getTextContent())) {
+                if (!StringUtils.equals(node.getNodeName(), "#text")) {
                     yuown.dyna.forms.model.Node n = new yuown.dyna.forms.model.Node();
                     n.setTitle(node.getNodeName());
                     n.setValue(node.getTextContent());
