@@ -28,7 +28,7 @@
             <md-tabs  md-dynamic-height md-border-bottom>
                <md-tab label="Original XML Content">
                 <md-input-container class="md-block" flex-gt-xs>
-                    <textarea rows="24" ng-model="xml"></textarea>
+                    <textarea rows="24" ng-model="xml" style="overflow-y: auto"></textarea>
                 </md-input-container>
                </md-tab>
                <md-tab label="Tree Preview" ng-disabled="!html">
@@ -60,7 +60,7 @@
                </md-tab>
                <md-tab label="Modified XML" ng-disabled="!modXml">
                 <md-input-container class="md-block" flex-gt-xs>
-                    <textarea rows="24" ng-model="modXml"></textarea>
+                    <textarea rows="24" ng-model="modXml" style="overflow-y: auto"></textarea>
                 </md-input-container>
                </md-tab>
             </md-tabs>

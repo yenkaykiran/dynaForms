@@ -39,6 +39,7 @@ public class FormsResourceImpl {
             return new ResponseEntity<String>(content, headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
+            headers.add("errorMessage", e.getMessage());
             return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -58,6 +59,7 @@ public class FormsResourceImpl {
             return new ResponseEntity<yuown.dyna.forms.model.Node>(node, headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
+            headers.add("errorMessage", e.getMessage());
             return new ResponseEntity<yuown.dyna.forms.model.Node>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -72,6 +74,7 @@ public class FormsResourceImpl {
             return new ResponseEntity<String>(xml, headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
+            headers.add("errorMessage", e.getMessage());
             return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
