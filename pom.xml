@@ -6,20 +6,14 @@
 	<version>1.0</version>
 	<packaging>war</packaging>
 	<name>dynaForms</name>
-	<description>Generate HTML Forms Dynamically from GUI/ XML/ JSON</description>
+	<description>Generate HTML Forms Dynamically from GUI/ XML</description>
 	<properties>
 		<hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
 		<spring.version>4.2.5.RELEASE</spring.version>
-		<spring.data.commons.core.version>1.4.1.RELEASE</spring.data.commons.core.version>
-		<spring.data.jpa.version>1.10.1.RELEASE</spring.data.jpa.version>
-		<spring-data-commons.version>1.12.1.RELEASE</spring-data-commons.version>
-		<spring-data-envers.version>1.0.1.RELEASE</spring-data-envers.version>
 		<apache.commons.lang3.version>3.4</apache.commons.lang3.version>
-		<jersey.bean.validation.version>2.22.2</jersey.bean.validation.version>
 		<com.fasterxml.jackson.jaxrs.version>2.7.3</com.fasterxml.jackson.jaxrs.version>
 		<slf4j-api.version>1.7.21</slf4j-api.version>
 		<javax.servlet.api.version>3.1.0</javax.servlet.api.version>
-		<h2.version>1.4.191</h2.version>
 		<commons.codec.version>1.10</commons.codec.version>
 		<xml-apis.version>1.4.01</xml-apis.version>
 	</properties>
@@ -58,11 +52,6 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${apache.commons.lang3.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.ext</groupId>
-			<artifactId>jersey-bean-validation</artifactId>
-			<version>${jersey.bean.validation.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.jaxrs</groupId>
@@ -128,7 +117,6 @@
                             </includes>
                         </resource>
                     </webResources>
-                    <outputDirectory>/Users/kirannk/Development/apache-tomcat-8.0.23/webapps</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>
