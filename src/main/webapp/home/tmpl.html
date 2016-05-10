@@ -35,23 +35,25 @@
                 <div style="overflow-y: auto">
                     <script type="text/ng-template" id="nodes_renderer.html">
                         <div>
-                            <span ng-if="node.title">
-                                <label ng-if="node.title">{{node.title}}: </label>
-                                <input type='text' value='{{node.value}}' ng-model='node.value' name='{{node.title}}' ng-if="node.value" ng-change="nodesToDOM()"/>
-                                <md-button data-nodrag ng-click="newSubItem(this)"> + </md-button>
-                                <md-button data-nodrag ng-click="removeSubItem(this)"> - </md-button>
+                            <span>
+                                <label ng-show="node.title">{{::node.title}}: </label>
+                                <input type='text' value='{{::node.value}}' ng-model='node.value' name='{{::node.title}}' ng-show="node.value" />
+                                <button data-nodrag ng-click="newSubItem(this)"> + </button>
+                                <button data-nodrag ng-click="removeSubItem(this)"> - </button>
                             </span>
                         </div>
-                        <dl ui-tree-nodes="" ng-model="node.nodes">
-                            <dt ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
-                            </dt>
-                        </dl>
+                        <fieldset ui-tree-nodes="" ng-model="node.nodes" ng-show="node.container==true">
+                            <legend>{{::node.title}}</legend>
+                            <span ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
+                            </span>
+                        </fieldset>
                     </script>
                     <div ui-tree>
-                        <dl ui-tree-nodes="" ng-model="nodes">
-                            <dt ng-repeat="node in nodes.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
-                            </dt>
-                        </dl>
+                        <fieldset ui-tree-nodes="" ng-model="nodes">
+                            <legend>{{::nodes.title}}</legend>
+                            <span ng-repeat="node in nodes.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
+                            </span>
+                        </fieldset>
                     </div>
                   </div>
                </md-tab>
