@@ -1,19 +1,32 @@
-dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', '$mdSidenav', 'AjaxService', '$controller', '$sce', function($scope, $rootScope, $timeout, $mdSidenav, AjaxService, $controller, $sce) {
+var fileselected; 
+
+dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', 'AjaxService', '$sce', function($scope, $rootScope, AjaxService, $sce) {
     'use strict';
     
     $scope.app = {
         name: "Dynamic Forms"   
     };
 
-    $controller('BaseController', {
-        $scope : $scope
-    });
-    
     $scope.restUrl = "forms/";
     
     $scope.nodes = {};
     $scope.modXml = '';
     $scope.status = 'Started';
+    
+    fileselected = function(changeEvent) {
+        var files = changeEvent.target.files;
+        if (files.length == 1) {
+            var r = new FileReader();
+            r.onload = function(e) {
+                var contents = r.result;
+                $scope.xml = contents;
+            };
+            r.readAsText(files[0]);
+        } else {
+            alert("Please Select only one XML File to Import");
+        }
+    };
+    
     $scope.xml2Html = function() {
         var request = {
             "xml" : $scope.xml
@@ -23,11 +36,7 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
             $scope.nodes = data;
             $scope.nodesToDOM();
         }).error(function(data, status, headers, config) {
-            $scope.confirmDialog({
-                title: 'Error',
-                content: headers('errorMessage'),
-                okLabel: 'OK'
-            }, null, function() { });
+            alert(headers('errorMessage'));
         });
     };
     
@@ -36,45 +45,50 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
         AjaxService.call($scope.restUrl + 'xml', 'POST', $scope.nodes).success(function(data, status, headers, config) {
             $scope.modXml = data;
         }).error(function(data, status, headers, config) {
-            $scope.confirmDialog({
-                title: 'Error',
-                content: headers('errorMessage'),
-                okLabel: 'OK'
-            }, null, function() { });
+        	alert(headers('errorMessage'));
         });
     };
     
     $scope.newSubItem = function(scope) {
         var parent = scope.$parent.$parent.$modelValue;
         var nodeData = angular.copy(scope.$modelValue);
-        if(!scope.$modelValue) {
-            nodeData = angular.copy(parent.nodes[scope.$index]);
-            parent.nodes.splice(scope.$index, 0, {
-                title : nodeData.title,
-                value: nodeData.value,
-                container: nodeData.container, 
-                attribute: nodeData.attribute,
-                nodes : nodeData.nodes
-            });
-        } else {
-            parent.splice(parent.indexOf(scope.$modelValue), 0, {
-                title : nodeData.title,
-                value: nodeData.value,
-                container: nodeData.container, 
-                attribute: nodeData.attribute,
-                nodes : nodeData.nodes
-            });
-        }
+        
+        try {
+        	if(!scope.$modelValue) {
+                nodeData = angular.copy(parent.nodes[scope.$index]);
+                parent.nodes.splice(scope.$index, 0, {
+                    title : nodeData.title,
+                    value: nodeData.value,
+                    container: nodeData.container, 
+                    attribute: nodeData.attribute,
+                    nodes : nodeData.nodes
+                });
+            } else {
+                parent.splice(parent.indexOf(scope.$modelValue), 0, {
+                    title : nodeData.title,
+                    value: nodeData.value,
+                    container: nodeData.container, 
+                    attribute: nodeData.attribute,
+                    nodes : nodeData.nodes
+                });
+            }
+        } catch (e) {
+			alert(e);
+		}
         $scope.nodesToDOM();
     };
     
     $scope.removeSubItem = function (scope) {
-        if(!scope.$modelValue) {
-            var parent = scope.$parent.$parent.$modelValue;
-            parent.nodes.splice(scope.$index, 1);
-        } else {
-            scope.remove();
-        }
+    	try {
+    		if(!scope.$modelValue) {
+                var parent = scope.$parent.$parent.$modelValue;
+                parent.nodes.splice(scope.$index, 1);
+            } else {
+                scope.remove();
+            }
+		} catch (e) {
+			alert(e);
+		}
         $scope.nodesToDOM();
     };
     
@@ -140,28 +154,19 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
 
     $scope.launch = function() {
         if(!$scope.html || !$scope.html.trim().length > 0) {
-            $scope.confirmDialog({
-                title: 'Error',
-                content: "HTML Content is Empty, Cannot Launch HTML",
-                okLabel: 'OK'
-            }, $event, function() { });
+        	alert("HTML Content is Empty, Cannot Launch HTML");
         } else {
             var html = "<html><head><title></title></head><body>" + $scope.html + "</body></html>";
             var winPrint = window.open('', '', '');
             winPrint.document.write(html);
             winPrint.document.close();
             winPrint.focus();
-            $scope.cancel();
         }
     };
     
     $scope.saveHTML = function($event) {
         if(!$scope.xml || !$scope.xml.trim().length > 0) {
-            $scope.confirmDialog({
-                title: 'Error',
-                content: "XML Content is Empty, Cannot Generate HTML",
-                okLabel: 'OK'
-            }, $event, function() { });
+        	alert("XML Content is Empty, Cannot Generate HTML");
         } else {
             var html = "<html><head><title></title></head><body>" + $scope.html + "</body></html>";
             var blob = new Blob([html], { type:"text/html;charset=utf-8;" });           
@@ -182,51 +187,33 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
     
 } ]);
 
-dynaFormsApp.controller('LeftController', [ '$scope', '$timeout', '$mdSidenav', function($scope, $timeout, $mdSidenav) {
-    'use strict';
-
-    $scope.close = function() {
-        $mdSidenav('left').close();
-    };
-
-} ]);
-
-dynaFormsApp.controller('DefaultController', [ '$scope', '$timeout', '$mdSidenav', 'AjaxService', '$rootScope', '$mdDialog', function($scope, $timeout, $mdSidenav, AjaxService, $rootScope, $mdDialog) {
-    'use strict';
-
-    $scope.init = function() {
-        
-    };
-    
-    $scope.load = function() {
-        
-    };
-    
-} ]);
-
-angular.module('dynaFormsApp').directive('xmlReader', function() {
+dynaFormsApp.factory('AjaxService', [ '$rootScope', '$http', function($rootScope, $http) {
+	
+	var serverUrl = "/dynaForms/rest/";
+	
     return {
-        scope : {
-            xmlReader : "=",
-            postread : "&"
+        call : function(url, method, params) {
+        	$rootScope.errorMessage = '';
+            switch (method) {
+            case 'POST':
+                return $http.post(serverUrl + url, params);
+            case 'GET':
+                return $http.get(serverUrl + url, params);
+            case 'DELETE':
+            	return $http({
+					url : serverUrl + url,
+					method : 'DELETE',
+					data : params,
+					headers : {
+						"Content-Type" : "application/json"
+					}
+				});
+            default:
+                break;
+            }
         },
-        link : function(scope, element) {
-            angular.element(element).on('change', function(changeEvent) {
-                var files = changeEvent.target.files;
-                if (files.length == 1) {
-                    var r = new FileReader();
-                    r.onload = function(e) {
-                        var contents = e.target.result;
-                        scope.$apply(function() {
-                            scope.xmlReader = contents;
-                            files[0]='';
-                        });
-                    };
-                    r.readAsText(files[0]);
-                } else {
-                    alert("Please Select only one XML File to Import");
-                }
-            });
+        baseUrl: function() {
+        	return serverUrl;
         }
     };
-});
+} ]);
