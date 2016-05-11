@@ -117,6 +117,7 @@
                             </includes>
                         </resource>
                     </webResources>
+                  <outputDirectory>/Users/kirannk/Development/apache-tomcat-8.0.23/webapps</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>

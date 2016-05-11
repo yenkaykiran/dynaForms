@@ -13,7 +13,7 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
     
     $scope.nodes = {};
     $scope.modXml = '';
-    
+    $scope.status = 'Started';
     $scope.xml2Html = function() {
         var request = {
             "xml" : $scope.xml
@@ -22,11 +22,6 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
         AjaxService.call($scope.restUrl + 'nodes', 'POST', request).success(function(data, status, headers, config) {
             $scope.nodes = data;
             $scope.nodesToDOM();
-            $scope.confirmDialog({
-                title: 'Success',
-                content: 'Success',
-                okLabel: 'OK'
-            }, null, function() { });
         }).error(function(data, status, headers, config) {
             $scope.confirmDialog({
                 title: 'Error',
@@ -89,6 +84,8 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
     };
     
     function extractHtmlFromXml(nodes) {
+        $scope.status = 'Started';
+        console.time("XML2HTML");
         var main = "";
         main += "<div>";
         main += "<fieldset>";
@@ -96,6 +93,8 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', '$timeout', 
         main += getContent(nodes);
         main += "</fieldset>";
         main += "</div>";
+        console.timeEnd("XML2HTML");
+        $scope.status = 'Finished';
         return main;
     }
 

@@ -1,71 +1,67 @@
-<div flex layout="row" ng-controller="HomeController" style="height: 100%">
-    <md-content flex id="content">
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <md-button class="md-icon-button" aria-label="Menu">
-                    <i class="material-icons">menu</i>
-                </md-button>
-                <h2><a href="#/">{{app.name}}</a></h2><p ng-show="pageTitle">&nbsp;&nbsp;&gt;&nbsp;&nbsp;<span><h3>{{pageTitle}}</h3></span></p>
-                <span flex></span>
+<div ng-controller='HomeController'>
+    <nav class="navbar navbar-default">
+        <div ng-controller="MenuController" class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#navbar" aria-expanded="true" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/home">Dynamic Forms</a>
             </div>
-        </md-toolbar>
-        <md-content style="height: 100%" flex>
-            <md-button class="md-fab md-primary md-hue-2" aria-label="Import XML" ng-click="filePicker()">
-                <label for="picker">
-                    <i class="material-icons">import_contacts</i>
-                    <md-tooltip>Choose XML File to Import</md-tooltip>
-               </label>
-            </md-button>
-            <md-button ng-click="xml2Html()" style="margin-right:20px;" ng-disabled="!xml"> Convert To HTML </md-button>
-            <md-button ng-click="saveHTML()" style="margin-right:20px;" ng-disabled="!html"> Save As HTML </md-button>
-            <md-button ng-click="launch()" style="margin-right:20px;" ng-disabled="!html"> Launch HTML in New Window </md-button>
-            <md-button ng-click="html2Xml()" style="margin-right:20px;" ng-disabled="!html"> Convert to XML </md-button>
-            <md-button class="md-fab md-primary md-hue-2" aria-label="Save XML Content" ng-disabled="!modXml" ng-click="exportXml($event)">
-                <i class="material-icons">file_download</i>
-                <md-tooltip>Save XML Content to File</md-tooltip>
-            </md-button>
-            <input id="picker" type="file" style="display:none;" accept="application/xml,text/xml" xml-reader="xml" />
-            <md-tabs  md-dynamic-height md-border-bottom>
-               <md-tab label="Original XML Content">
-                <md-input-container class="md-block" flex-gt-xs>
-                    <textarea rows="24" ng-model="xml" style="overflow-y: auto"></textarea>
-                </md-input-container>
-               </md-tab>
-               <md-tab label="Tree Preview" ng-disabled="!html">
+            <div id="navbar" class="navbar-collapse collapse in" aria-expanded="true">
+                <form class="navbar-form navbar-left" role="search" ng-submit="xml2Html()">
+                    <div class="form-group">
+                        <input type="file" class="form-control" placeholder="Select a File to Import XML" />
+                    </div>
+                    <button type="submit" class="btn btn-default">Convert to HTML</button>
+                </form>
+                <ul class="nav navbar-nav">
+                    <li><a href="#" ng-click="saveHTML()">Save As HTML</a></li>
+                    <li><a href="#" ng-click="launch()">Launch HTML in New Window</a></li>
+                    <li><a href="#" ng-click="html2Xml()">Convert To XML</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#html" aria-controls="HTML" role="tab" data-toggle="tab">HTML</a></li>
+            <li role="presentation"><a href="#xml" aria-controls="profile" role="tab" data-toggle="tab">Modified XML</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="html">
                 <div style="overflow-y: auto">
                     <script type="text/ng-template" id="nodes_renderer.html">
-                        <div>
+                        <span>
                             <span>
-                                <label ng-show="node.title">{{::node.title}}: </label>
-                                <input type='text' value='{{::node.value}}' ng-model='node.value' name='{{::node.title}}' ng-show="node.value" />
+                                <label ng-show="node.title">{{node.title}}: </label>
+                                <input type='text' value='{{node.value}}' ng-model='node.value' name='{{node.title}}' ng-show="node.value" />
                                 <button data-nodrag ng-click="newSubItem(this)"> + </button>
                                 <button data-nodrag ng-click="removeSubItem(this)"> - </button>
-                            </span>
-                        </div>
+                            </span><br />
+                        </span>
                         <fieldset ui-tree-nodes="" ng-model="node.nodes" ng-show="node.container==true">
-                            <legend>{{::node.title}}</legend>
+                            <legend>{{node.title}}</legend>
                             <span ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
                             </span>
                         </fieldset>
                     </script>
                     <div ui-tree>
                         <fieldset ui-tree-nodes="" ng-model="nodes">
-                            <legend>{{::nodes.title}}</legend>
-                            <span ng-repeat="node in nodes.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
-                            </span>
+                            <legend>{{nodes.title}}</legend>
+                            <span ng-repeat="node in nodes.nodes" ui-tree-node ng-include="'nodes_renderer.html'"> </span>
                         </fieldset>
                     </div>
-                  </div>
-               </md-tab>
-               <md-tab label="HTML Preview" ng-disabled="!html">
-                <div style="overflow-y: auto" ng-bind-html="trustedHtml"></div>
-               </md-tab>
-               <md-tab label="Modified XML" ng-disabled="!modXml">
-                <md-input-container class="md-block" flex-gt-xs>
-                    <textarea rows="24" ng-model="modXml" style="overflow-y: auto"></textarea>
-                </md-input-container>
-               </md-tab>
-            </md-tabs>
-        </md-content>
-    </md-content>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="xml" ng-disabled="!modXml">
+                <textarea rows="24" ng-model="modXml" style="overflow-y: auto"></textarea>
+            </div>
+        </div>
+    </div>
 </div>
