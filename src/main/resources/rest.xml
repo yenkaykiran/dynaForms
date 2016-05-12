@@ -9,6 +9,8 @@ xmlns:context="http://www.springframework.org/schema/context"
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:component-scan base-package="yuown.dyna.forms.rest" />
+    <context:property-placeholder location="classpath:dynaForms.properties" />
+    
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
 	        <bean class="org.springframework.http.converter.BufferedImageHttpMessageConverter" />

@@ -101,6 +101,17 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', 'AjaxService
         $scope.trustedHtml = $sce.trustAsHtml($scope.html);
     };
     
+    $scope.notEnum = function(node) {
+    	var flag = false;
+    	for (var attribute in $scope.attributes) {
+			if(node.title == attribute) {
+				flag = true;
+				break;
+			}
+		}
+    	return flag;
+    };
+    
     function extractHtmlFromXml(nodes) {
         $scope.status = 'Started';
         console.time("XML2HTML");

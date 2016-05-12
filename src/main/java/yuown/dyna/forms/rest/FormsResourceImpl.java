@@ -1,14 +1,5 @@
 package yuown.dyna.forms.rest;
 
-import java.io.File;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.xerces.parsers.DOMParser;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,254 +19,253 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping(value = "/forms", produces = { MediaType.APPLICATION_JSON_VALUE })
 public class FormsResourceImpl {
 
-	@Value("#{'${meta-tags}'.split(',')}")
-	private List<String> listTags;
+    @Value("#{'${meta.tags}'.split(',')}")
+    private List<String> listTags;
 
-	@Value("${meta-file}")
-	private String metaFileName;
+    @Value("${meta.file}")
+    private String metaFileName;
 
-	// private Map<String, String> map = new HashMap<String, String>();
+    private Map<String, ArrayList<String>> tags = new HashMap<String, ArrayList<String>>();
 
-	private Map<String, ArrayList<String>> tags = new HashMap<String, ArrayList<String>>();
+    @RequestMapping(method = RequestMethod.POST, value = "/html", produces = { MediaType.TEXT_HTML_VALUE })
+    @ResponseBody
+    public ResponseEntity<String> getHtml(@RequestBody Map<String, String> request) {
+        HttpHeaders headers = new HttpHeaders();
+        try {
+            DOMParser parser = new DOMParser();
+            parser.parse(new InputSource(new java.io.StringReader(request.get("xml"))));
+            Document doc = parser.getDocument();
+            Element element = doc.getDocumentElement();
+            String content = extractHtmlFromXml(element);
+            return new ResponseEntity<String>(content, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            headers.add("errorMessage", e.getMessage());
+            return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-	@PostConstruct
-	public void init() {
+    }
 
-	}
+    @RequestMapping(method = RequestMethod.POST, value = "/nodes", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public ResponseEntity<yuown.dyna.forms.model.Node> getHtmlNodes(@RequestBody Map<String, String> request) {
+        HttpHeaders headers = new HttpHeaders();
+        yuown.dyna.forms.model.Node node = null;
+        try {
+            DOMParser parser = new DOMParser();
+            parser.parse(new InputSource(new java.io.StringReader(request.get("xml"))));
+            Document doc = parser.getDocument();
+            Element element = doc.getDocumentElement();
+            node = extractNodesFromXml(element);
+            return new ResponseEntity<yuown.dyna.forms.model.Node>(node, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            headers.add("errorMessage", e.getMessage());
+            return new ResponseEntity<yuown.dyna.forms.model.Node>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-	@RequestMapping(method = RequestMethod.POST, value = "/html", produces = { MediaType.TEXT_HTML_VALUE })
-	@ResponseBody
-	public ResponseEntity<String> getHtml(@RequestBody Map<String, String> request) {
-		HttpHeaders headers = new HttpHeaders();
-		try {
-			DOMParser parser = new DOMParser();
-			parser.parse(new InputSource(new java.io.StringReader(request.get("xml"))));
-			Document doc = parser.getDocument();
-			Element element = doc.getDocumentElement();
-			String content = extractHtmlFromXml(element);
-			return new ResponseEntity<String>(content, headers, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			headers.add("errorMessage", e.getMessage());
-			return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+    }
 
-	}
+    @RequestMapping(method = RequestMethod.POST, value = "/xml", produces = { MediaType.TEXT_HTML_VALUE })
+    @ResponseBody
+    public ResponseEntity<String> getXmlFromNodes(@RequestBody yuown.dyna.forms.model.Node node) {
+        HttpHeaders headers = new HttpHeaders();
+        try {
+            String xml = extractXmlFromNode(node);
+            return new ResponseEntity<String>(xml, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            headers.add("errorMessage", e.getMessage());
+            return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-	@RequestMapping(method = RequestMethod.POST, value = "/nodes", produces = { MediaType.APPLICATION_JSON_VALUE })
-	@ResponseBody
-	public ResponseEntity<yuown.dyna.forms.model.Node> getHtmlNodes(@RequestBody Map<String, String> request) {
-		HttpHeaders headers = new HttpHeaders();
-		yuown.dyna.forms.model.Node node = null;
-		try {
-			DOMParser parser = new DOMParser();
-			parser.parse(new InputSource(new java.io.StringReader(request.get("xml"))));
-			Document doc = parser.getDocument();
-			Element element = doc.getDocumentElement();
-			node = extractNodesFromXml(element);
-			return new ResponseEntity<yuown.dyna.forms.model.Node>(node, headers, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			headers.add("errorMessage", e.getMessage());
-			return new ResponseEntity<yuown.dyna.forms.model.Node>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+    }
 
-	}
+    @RequestMapping(method = RequestMethod.GET, value = "/attributes", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public Map<String, ArrayList<String>> attributes() {
+        tags.clear();
+        try {
+            DOMParser parser = new DOMParser();
+            File currFile = new File(getClass().getClassLoader().getResource(metaFileName).getFile());
+            parser.parse(new InputSource(new FileReader(currFile)));
+            Document metaDoc = parser.getDocument();
 
-	@RequestMapping(method = RequestMethod.POST, value = "/xml", produces = { MediaType.TEXT_HTML_VALUE })
-	@ResponseBody
-	public ResponseEntity<String> getXmlFromNodes(@RequestBody yuown.dyna.forms.model.Node node) {
-		HttpHeaders headers = new HttpHeaders();
-		try {
-			String xml = extractXmlFromNode(node);
-			return new ResponseEntity<String>(xml, headers, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			headers.add("errorMessage", e.getMessage());
-			return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+            for (String string : listTags) {
+                String[] split = string.split(":");
+                NodeList metaTags = metaDoc.getElementsByTagName(split[0]);
+                int tagsCount = metaTags.getLength();
+                ArrayList<String> attributeValues;
+                if (!tags.containsKey(split[0])) {
+                    attributeValues = new ArrayList<String>();
+                } else {
+                    attributeValues = tags.get(split[0]);
+                }
+                for (int i = 0; i < tagsCount; i++) {
+                    attributeValues.add(metaTags.item(i).getAttributes().getNamedItem(split[1]).getNodeValue());
+                }
+                tags.put(split[0], attributeValues);
+            }
 
-	}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/attributes", produces = { MediaType.APPLICATION_JSON_VALUE })
-	@ResponseBody
-	public Map<String, ArrayList<String>> attributes() {
-		tags.clear();
-		try {
-			DOMParser parser = new DOMParser();
-			File currFile = new File(getClass().getClassLoader().getResource(metaFileName).getFile());
-			parser.parse(new InputSource(new FileReader(currFile)));
-			Document metaDoc = parser.getDocument();
+        return tags;
+    }
 
-			for (String string : listTags) {
-				String[] split = string.split(":");
-				// map.put(split[0], split[1]);
-				NodeList metaTags = metaDoc.getElementsByTagName(split[0]);
-				int tagsCount = metaTags.getLength();
-				ArrayList<String> attributeValues;
-				if (!tags.containsKey(split[0])) {
-					attributeValues = new ArrayList<String>();
-				} else {
-					attributeValues = tags.get(split[0]);
-				}
-				for (int i = 0; i < tagsCount; i++) {
-					attributeValues.add(metaTags.item(i).getAttributes().getNamedItem(split[1]).getNodeValue());
-				}
-				tags.put(split[0], attributeValues);
-			}
+    private String extractHtmlFromXml(Element element) {
+        String main = "";
+        main += "<div>";
+        main += "<fieldset>";
+        main += "<legend>" + element.getNodeName() + "</legend>";
+        main += getAttributesContent(element.getAttributes());
+        main += getContent(element.getChildNodes());
+        main += "</fieldset>";
+        main += "</div>";
+        return main;
+    }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    private String getContent(NodeList nodes) {
+        String content = "";
+        int nodeCount = nodes.getLength();
+        for (int i = 0; i < nodeCount; i++) {
+            Node node = nodes.item(i);
+            if (node.getChildNodes().getLength() > 0) {
+                if (node.getChildNodes().getLength() > 1) {
+                    content += "<div>";
+                    content += "<fieldset>";
+                    content += "<legend>" + node.getNodeName() + "</legend>";
+                }
+                content += getAttributesContent(node.getAttributes());
+                content += getContent(node.getChildNodes());
+                if (node.getChildNodes().getLength() > 1) {
+                    content += "</fieldset>";
+                    content += "</div>";
+                }
+            } else {
+                if (StringUtils.isNotBlank(node.getTextContent())) {
+                    content += "<span>";
+                    content += "<label>" + node.getParentNode().getNodeName() + ": </label>";
+                    content += "<input type='text' value='" + node.getTextContent() + "' name='" + node.getParentNode().getNodeName() + "' />";
+                    content += "</span>";
+                }
+            }
+        }
+        return content;
+    }
 
-		return tags;
-	}
+    private String getAttributesContent(NamedNodeMap attributes) {
+        String attributeContent = "";
+        for (int i = 0; i < attributes.getLength(); i++) {
+            attributeContent += "<span>";
+            attributeContent += "<label>" + attributes.item(i).getNodeName() + ": </label>";
+            attributeContent += "<input type='text' value='" + attributes.item(i).getNodeValue() + "' name='" + attributes.item(i).getNodeName() + "' />";
+            attributeContent += "</span>";
+        }
+        return attributeContent;
+    }
 
-	private String extractHtmlFromXml(Element element) {
-		String main = "";
-		main += "<div>";
-		main += "<fieldset>";
-		main += "<legend>" + element.getNodeName() + "</legend>";
-		main += getAttributesContent(element.getAttributes());
-		main += getContent(element.getChildNodes());
-		main += "</fieldset>";
-		main += "</div>";
-		return main;
-	}
+    private yuown.dyna.forms.model.Node extractNodesFromXml(Element element) {
+        yuown.dyna.forms.model.Node n = new yuown.dyna.forms.model.Node();
+        n.setContainer(true);
+        n.setTitle(element.getNodeName());
+        n.addNodes(getAttributesNodes(element.getAttributes()));
+        n.addNodes(getContentNodes(element));
+        return n;
+    }
 
-	private String getContent(NodeList nodes) {
-		String content = "";
-		int nodeCount = nodes.getLength();
-		for (int i = 0; i < nodeCount; i++) {
-			Node node = nodes.item(i);
-			if (node.getChildNodes().getLength() > 0) {
-				if (node.getChildNodes().getLength() > 1) {
-					content += "<div>";
-					content += "<fieldset>";
-					content += "<legend>" + node.getNodeName() + "</legend>";
-				}
-				content += getAttributesContent(node.getAttributes());
-				content += getContent(node.getChildNodes());
-				if (node.getChildNodes().getLength() > 1) {
-					content += "</fieldset>";
-					content += "</div>";
-				}
-			} else {
-				if (StringUtils.isNotBlank(node.getTextContent())) {
-					content += "<span>";
-					content += "<label>" + node.getParentNode().getNodeName() + ": </label>";
-					content += "<input type='text' value='" + node.getTextContent() + "' name='" + node.getParentNode().getNodeName() + "' />";
-					content += "</span>";
-				}
-			}
-		}
-		return content;
-	}
+    private List<yuown.dyna.forms.model.Node> getAttributesNodes(NamedNodeMap attributes) {
+        List<yuown.dyna.forms.model.Node> atts = new ArrayList<yuown.dyna.forms.model.Node>();
+        if (null != attributes) {
+            for (int i = 0; i < attributes.getLength(); i++) {
+                yuown.dyna.forms.model.Node a = new yuown.dyna.forms.model.Node();
+                a.setTitle(attributes.item(i).getNodeName());
+                a.setContainer(false);
+                a.setAttribute(true);
+                a.setValue(attributes.item(i).getNodeValue());
+                atts.add(a);
+            }
+        }
+        return atts;
+    }
 
-	private String getAttributesContent(NamedNodeMap attributes) {
-		String attributeContent = "";
-		for (int i = 0; i < attributes.getLength(); i++) {
-			attributeContent += "<span>";
-			attributeContent += "<label>" + attributes.item(i).getNodeName() + ": </label>";
-			attributeContent += "<input type='text' value='" + attributes.item(i).getNodeValue() + "' name='" + attributes.item(i).getNodeName() + "' />";
-			attributeContent += "</span>";
-		}
-		return attributeContent;
-	}
+    private List<yuown.dyna.forms.model.Node> getContentNodes(Node element) {
+        List<yuown.dyna.forms.model.Node> content = new ArrayList<yuown.dyna.forms.model.Node>();
+        NodeList list = element.getChildNodes();
+        if (list != null && list.getLength() > 0) {
+            int nodeCount = list.getLength();
+            for (int i = 0; i < nodeCount; i++) {
+                Node node = list.item(i);
+                if (!StringUtils.equals(node.getNodeName(), "#text")) {
+                    yuown.dyna.forms.model.Node n = new yuown.dyna.forms.model.Node();
+                    n.setTitle(node.getNodeName());
+                    n.setValue(node.getTextContent());
+                    n.addNodes(getAttributesNodes(node.getAttributes()));
+                    if (node.getChildNodes().getLength() > 0) {
+                        if (node.getChildNodes().getLength() > 1) {
+                            n.setContainer(true);
+                            n.setValue(null);
+                            n.addNodes(getContentNodes(node));
+                        }
+                    }
+                    content.add(n);
+                }
+            }
+        }
+        return content;
+    }
 
-	private yuown.dyna.forms.model.Node extractNodesFromXml(Element element) {
-		yuown.dyna.forms.model.Node n = new yuown.dyna.forms.model.Node();
-		n.setContainer(true);
-		n.setTitle(element.getNodeName());
-		n.addNodes(getAttributesNodes(element.getAttributes()));
-		n.addNodes(getContentNodes(element));
-		return n;
-	}
+    private String extractXmlFromNode(yuown.dyna.forms.model.Node node) {
+        String main = "<" + node.getTitle() + " " + getNodeAttributes(node) + ">" + "\n";
+        main += getNodeContents(node) + "\n";
+        main += "</" + node.getTitle() + ">";
+        return main;
+    }
 
-	private List<yuown.dyna.forms.model.Node> getAttributesNodes(NamedNodeMap attributes) {
-		List<yuown.dyna.forms.model.Node> atts = new ArrayList<yuown.dyna.forms.model.Node>();
-		if (null != attributes) {
-			for (int i = 0; i < attributes.getLength(); i++) {
-				yuown.dyna.forms.model.Node a = new yuown.dyna.forms.model.Node();
-				a.setTitle(attributes.item(i).getNodeName());
-				a.setContainer(false);
-				a.setAttribute(true);
-				a.setValue(attributes.item(i).getNodeValue());
-				atts.add(a);
-			}
-		}
-		return atts;
-	}
+    private String getNodeContents(yuown.dyna.forms.model.Node node) {
+        String content = "";
+        List<yuown.dyna.forms.model.Node> subs = node.getNodes();
+        if (null != subs && subs.size() > 0) {
+            for (int i = 0; i < subs.size(); i++) {
+                yuown.dyna.forms.model.Node sub = subs.get(i);
+                if (sub.getContainer() == true) {
+                    content += "<" + sub.getTitle() + " " + getNodeAttributes(sub) + ">" + "\n";
+                    content += getNodeContents(sub) + "\n";
+                    content += "</" + sub.getTitle() + ">";
+                } else {
+                    if (sub.getAttribute() == false) {
+                        content += "<" + sub.getTitle() + " " + getNodeAttributes(sub) + ">" + "\n";
+                        content += sub.getValue();
+                        content += "</" + sub.getTitle() + ">";
+                    }
+                }
+            }
+        }
+        return content;
+    }
 
-	private List<yuown.dyna.forms.model.Node> getContentNodes(Node element) {
-		List<yuown.dyna.forms.model.Node> content = new ArrayList<yuown.dyna.forms.model.Node>();
-		NodeList list = element.getChildNodes();
-		if (list != null && list.getLength() > 0) {
-			int nodeCount = list.getLength();
-			for (int i = 0; i < nodeCount; i++) {
-				Node node = list.item(i);
-				if (!StringUtils.equals(node.getNodeName(), "#text")) {
-					yuown.dyna.forms.model.Node n = new yuown.dyna.forms.model.Node();
-					n.setTitle(node.getNodeName());
-					n.setValue(node.getTextContent());
-					n.addNodes(getAttributesNodes(node.getAttributes()));
-					if (node.getChildNodes().getLength() > 0) {
-						if (node.getChildNodes().getLength() > 1) {
-							n.setContainer(true);
-							n.setValue(null);
-							n.addNodes(getContentNodes(node));
-						}
-					}
-					content.add(n);
-				}
-			}
-		}
-		return content;
-	}
-
-	private String extractXmlFromNode(yuown.dyna.forms.model.Node node) {
-		String main = "<" + node.getTitle() + " " + getNodeAttributes(node) + ">" + "\n";
-		main += getNodeContents(node) + "\n";
-		main += "</" + node.getTitle() + ">";
-		return main;
-	}
-
-	private String getNodeContents(yuown.dyna.forms.model.Node node) {
-		String content = "";
-		List<yuown.dyna.forms.model.Node> subs = node.getNodes();
-		if (null != subs && subs.size() > 0) {
-			for (int i = 0; i < subs.size(); i++) {
-				yuown.dyna.forms.model.Node sub = subs.get(i);
-				if (sub.getContainer() == true) {
-					content += "<" + sub.getTitle() + " " + getNodeAttributes(sub) + ">" + "\n";
-					content += getNodeContents(sub) + "\n";
-					content += "</" + sub.getTitle() + ">";
-				} else {
-					if (sub.getAttribute() == false) {
-						content += "<" + sub.getTitle() + " " + getNodeAttributes(sub) + ">" + "\n";
-						content += sub.getValue();
-						content += "</" + sub.getTitle() + ">";
-					}
-				}
-			}
-		}
-		return content;
-	}
-
-	private String getNodeAttributes(yuown.dyna.forms.model.Node node) {
-		String attributeContent = "";
-		List<yuown.dyna.forms.model.Node> atts = node.getNodes();
-		if (null != atts && atts.size() > 0) {
-			for (int i = 0; i < atts.size(); i++) {
-				if (atts.get(i).getAttribute() == true) {
-					attributeContent += atts.get(i).getTitle() + "='" + atts.get(i).getValue() + "' ";
-				}
-			}
-		}
-		return attributeContent.trim();
-	}
+    private String getNodeAttributes(yuown.dyna.forms.model.Node node) {
+        String attributeContent = "";
+        List<yuown.dyna.forms.model.Node> atts = node.getNodes();
+        if (null != atts && atts.size() > 0) {
+            for (int i = 0; i < atts.size(); i++) {
+                if (atts.get(i).getAttribute() == true) {
+                    attributeContent += atts.get(i).getTitle() + "='" + atts.get(i).getValue() + "' ";
+                }
+            }
+        }
+        return attributeContent.trim();
+    }
 }
