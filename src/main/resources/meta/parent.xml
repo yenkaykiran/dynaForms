@@ -1,0 +1,1301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdrconfigs>
+<!--NOTE Desktop is at higher level, but if more than one desktops are available for single object store 
+with same config seperated the desktop id with comma but if the configs are different then you may choose to copy the whole desktop element
+Combination of (desktop + objectstore symname +repositoryId + Class symname) will be always considered
+-->
+<desktop id="IE,IENMO">
+	<objectstore name="EMEA-101-001" symbolicname="EMEA101001" repositoryId="ARSIE">
+		<dbdetails datastorejndiname="RDRDS" dbtype="DB2" />
+		<class symbolicname="ARSClient">
+			<property symbolicname="DocumentTitle" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_Source_equals_Email_during_create_DocumentTitle" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Validated" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="condition_readonly_IE_contains_Validated" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true">
+				<lookup spname="RDRDBUSR.USP_IE_GET_VALIDATED" condition="none">
+					<input>
+					<!-- NOTE: More than one rule name can be given seperated by comma The order of evaluation of the rules will be left to right -->
+						<mapping rdr="in_Validated" ecm="Validated" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						
+					</input>
+					<output mergedisplayvalueof="">
+						<mapping rdr="Validated" ecm="Validated" dbdatatype="String" updatetype="none" showinresultspage="false" label="lbl_IE_Validated" rule="none"/>
+						
+					</output>
+				</lookup>
+			</property>
+			<property symbolicname="ClientID" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_ARSCLIENT_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaludation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_SourceSystem" ecm="SourceSystem" mandatoryinSP="no" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClientID">
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClientID"	rule="none" />
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClientName" rule="none" />
+							<mapping rdr="DEPARTMENT_CODE" ecm="DepartmentCode" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_DepartmentCode"	rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SourceSystem" rule="none" />
+							<mapping rdr="CONSUMER_NON_CONSUMER" ecm="ConsumerNonConsumer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_ConsumerNonConsumer"	rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DocumentOwner" rule="none" />
+						</output>
+				</lookup>
+			</property>
+			<property symbolicname="ClientName" lookup="yes" dependentOn="ClientID" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_ARSCLIENT_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaludation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_SourceSystem" ecm="SourceSystem" mandatoryinSP="no" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClientID">
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClientID"	rule="none" />
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="none" showinresultspage="true" label="lbl_IE_ARS_ClientName" rule="none" />
+							<mapping rdr="DEPARTMENT_CODE" ecm="DepartmentCode" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_DepartmentCode"	rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SourceSystem" rule="none" />
+							<mapping rdr="CONSUMER_NON_CONSUMER" ecm="ConsumerNonConsumer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SourceSystem"	rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DocumentOwner" rule="none" />
+						</output>
+				</lookup>
+			</property>
+			<property symbolicname="DepartmentCode" lookup="no" dependentOn="ClientID" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="ARSClientSubType" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition=""	maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DateofDocument" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated_OR" requiredifcondition="condition_required_during_notEmailCreation_DateofDocument" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="Description" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="ActionRequired" lookup="no" dependentOn="" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DiaryDate" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="rule_currentdatetime_DateofDocument" />
+			<property symbolicname="SourceSystem" lookup="yes" dependentOn="ClientID" readonly="false" hidden="false" required="false" readonlyifcondition="condition_IE_readonly_forvalue_single" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="condition_required_forvalue_more" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true">
+				<lookup spname="RDRDBUSR.USP_IE_GET_ARSCLIENT_DTL" condition="none">
+							<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaludation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_SourceSystem" ecm="SourceSystem" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClientID">
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClientID"	rule="none" />
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClientName" rule="none" />
+							<mapping rdr="DEPARTMENT_CODE" ecm="DepartmentCode" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_DepartmentCode"	rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SourceSystem" rule="none" />
+							<mapping rdr="CONSUMER_NON_CONSUMER" ecm="ConsumerNonConsumer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SourceSystem"	rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DocumentOwner" rule="none" />
+						</output>
+				</lookup>
+			</property>
+			<property symbolicname="ConsumerNonConsumer" lookup="no" dependentOn="ClientID" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			
+			<property symbolicname="DocumentStatus" lookup="no" dependentOn="" readonly="false"  hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="Indexed"/>
+			<property symbolicname="ScanDeviceName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDateTime" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDocID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Pages" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Source" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserFullName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="From" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="To" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="CarbonCopy" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Language" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			
+			<property symbolicname="SecurityGroup" lookup="no" dependentOn="ClientID" readonly="true" hidden="true" required="true" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>	
+			<property symbolicname="DocumentOwner" lookup="no" dependentOn="ClientID" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true"/>
+		</class>
+		<class symbolicname="ARSPolicy">
+			<property symbolicname="DocumentTitle" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_Source_equals_Email_during_create_DocumentTitle" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Validated" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="condition_readonly_IE_contains_Validated" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true">
+				<lookup spname="RDRDBUSR.USP_IE_GET_VALIDATED" condition="none">
+					<input>
+					<!-- NOTE: More than one rule name can be given seperated by comma The order of evaluation of the rules will be left to right -->
+						<mapping rdr="in_Validated" ecm="Validated" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						
+					</input>
+					<output mergedisplayvalueof="">
+						<mapping rdr="Validated" ecm="Validated" dbdatatype="String" updatetype="none" showinresultspage="false" label="lbl_IE_Validated" rule="none"/>
+						
+					</output>
+				</lookup>
+			</property>
+			<property symbolicname="CoverNumber" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_ARSPOLICY_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_CoverNumber" ecm="CoverNumber" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="CoverNumber">
+							<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_RiskType" rule="none"/>
+							<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_InsurerPolicyNumber" rule="none"/>
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClientName" rule="none"/>
+							<mapping rdr="COVER_NUMBER" ecm="CoverNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_CoverNumber" rule="none"/>
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_ClientID" rule="none"/>
+							<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_Insurer" rule="none"/>
+							<mapping rdr="DEPARTMENT_CODE" ecm="DepartmentCode" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DepartmentCode" rule="none"/>
+							<mapping rdr="POLICY_DEPARTMENT" ecm="PolicyDepartment" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_PolicyDepartment" rule="none"/>
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SourceSystem" rule="none"/>
+							<mapping rdr="CONSUMER_NON_CONSUMER" ecm="ConsumerNonConsumer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_ConsumerNonConsumer" rule="none"/>
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SecurityGroup" rule="none"/>
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DocumentOwner" rule="none"/>
+						</output>
+
+				</lookup>
+			</property>
+			<property symbolicname="ClientID" lookup="yes" dependentOn="CoverNumber" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_ARSPOLICY_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_CoverNumber" ecm="CoverNumber" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="CoverNumber">
+							<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_RiskType" rule="none"/>
+							<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_InsurerPolicyNumber" rule="none"/>
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClientName" rule="none"/>
+							<mapping rdr="COVER_NUMBER" ecm="CoverNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_CoverNumber" rule="none"/>
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_ClientID" rule="none"/>
+							<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_Insurer" rule="none"/>
+							<mapping rdr="DEPARTMENT_CODE" ecm="DepartmentCode" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DepartmentCode" rule="none"/>
+							<mapping rdr="POLICY_DEPARTMENT" ecm="PolicyDepartment" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_PolicyDepartment" rule="none"/>
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SourceSystem" rule="none"/>
+							<mapping rdr="CONSUMER_NON_CONSUMER" ecm="ConsumerNonConsumer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_ConsumerNonConsumer" rule="none"/>
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SecurityGroup" rule="none"/>
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DocumentOwner" rule="none"/>
+						</output>
+
+				</lookup>
+			</property>
+			<property symbolicname="ClientName" lookup="yes" dependentOn="CoverNumber" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_ARSPOLICY_DTL" condition="none">
+							<input>
+								<!--
+									NOTE: More than one rule name can be given seperated by comma The
+									order of evaluation of the rules will be left to right
+								-->
+								<mapping rdr="in_CoverNumber" ecm="CoverNumber" mandatoryinSP="no" dbdatatype="String" rule="none" />
+								<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="no" dbdatatype="String" rule="none" />
+								<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+								<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+								<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							</input>
+							<output mergedisplayvalueof="CoverNumber">
+								<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_RiskType" rule="none"/>
+								<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_InsurerPolicyNumber" rule="none"/>
+								<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClientName" rule="none"/>
+								<mapping rdr="COVER_NUMBER" ecm="CoverNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_CoverNumber" rule="none"/>
+								<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_ClientID" rule="none"/>
+								<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_Insurer" rule="none"/>
+								<mapping rdr="DEPARTMENT_CODE" ecm="DepartmentCode" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DepartmentCode" rule="none"/>
+								<mapping rdr="POLICY_DEPARTMENT" ecm="PolicyDepartment" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_PolicyDepartment" rule="none"/>
+								<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SourceSystem" rule="none"/>
+								<mapping rdr="CONSUMER_NON_CONSUMER" ecm="ConsumerNonConsumer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_ConsumerNonConsumer" rule="none"/>
+								<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SecurityGroup" rule="none"/>
+								<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DocumentOwner" rule="none"/>
+							</output>
+					</lookup>
+			</property>
+			<property symbolicname="ARSPolicySubType" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DateofDocument" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated_OR" requiredifcondition="condition_required_during_notEmailCreation_DateofDocument" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="Description" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="ActionRequired" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DiaryDate" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="rule_currentdatetime_DateofDocument" />
+			<property symbolicname="RiskType" lookup="no" dependentOn="" readonly="true" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="InsurerPolicyNumber" lookup="no" dependentOn="" readonly="true" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Insurer" lookup="no" dependentOn="" readonly="true" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>			
+			<property symbolicname="DepartmentCode" lookup="no" dependentOn="" readonly="true" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>			
+			<property symbolicname="PolicyDepartment" lookup="no" dependentOn="" readonly="true" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>			
+			<property symbolicname="PolicyYear" lookup="no" dependentOn="" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="2030" minvalue="1971" maxlength="" defaultvalue="" />			
+			<property symbolicname="SourceSystem" lookup="no" dependentOn="CoverNumber" readonly="false" hidden="false" required="false"	readonlyifcondition="condition_IE_readonly_forvalue_single" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="condition_required_forvalue_more" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true"/>			
+			<property symbolicname="ConsumerNonConsumer" lookup="no" dependentOn="" readonly="true" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>			
+			
+			<property symbolicname="DocumentStatus" lookup="no" dependentOn="" readonly="false"  hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="Indexed"/>
+			<property symbolicname="ScanDeviceName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDateTime" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDocID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Pages" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Source" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserFullName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="From" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="To" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="CarbonCopy" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Language" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>	
+			
+			<property symbolicname="SecurityGroup" lookup="no" dependentOn="CoverNumber" readonly="true" hidden="true" required="true" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="DocumentOwner" lookup="no" dependentOn="CoverNumber" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true"/>
+		</class>
+		<class symbolicname="ARSClaim">
+			<property symbolicname="DocumentTitle" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_Source_equals_Email_during_create_DocumentTitle" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Validated" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="condition_readonly_IE_contains_Validated" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true">
+				<lookup spname="RDRDBUSR.USP_IE_GET_VALIDATED" condition="none">
+					<input>
+					<!-- NOTE: More than one rule name can be given seperated by comma The order of evaluation of the rules will be left to right -->
+						<mapping rdr="in_Validated" ecm="Validated" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						
+					</input>
+					<output mergedisplayvalueof="">
+						<mapping rdr="Validated" ecm="Validated" dbdatatype="String" updatetype="none" showinresultspage="false" label="lbl_IE_Validated" rule="none"/>
+						
+					</output>
+				</lookup>
+			</property>
+			<property symbolicname="ClaimNumber" lookup="yes"	dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_ARSCLAIM_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClaimNumber" ecm="ClaimNumber" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClaimNumber">
+							<mapping rdr="CLAIM_NUMBER" ecm="ClaimNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClaimNumber" rule="none"/>
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClientName" rule="none"/>
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClientID" rule="none"/>
+							<mapping rdr="COVER_NUMBER" ecm="CoverNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_CoverNumber" rule="none"/>
+							<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_RiskType" rule="none"/>
+							<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_InsurerPolicyNumber" rule="none"/>
+							<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_Insurer" rule="none"/>
+							<mapping rdr="DEPARTMENT_CODE" ecm="DepartmentCode" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DepartmentCode" rule="none"/>
+							<mapping rdr="POLICY_DEPARTMENT" ecm="PolicyDepartment" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_PolicyDepartment" rule="none"/>
+							<mapping rdr="CLAIMANT" ecm="Claimant" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_Claimant" rule="none"/>
+							<mapping rdr="CLAIM_TYPE" ecm="ClaimType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_ClaimType" rule="none"/>
+							<mapping rdr="DATE_OF_LOSS" ecm="DateofLoss" dbdatatype="Date" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DateofLoss" rule="none"/>
+							<mapping rdr="VEHICLE_REGISTRATION_NUMBER" ecm="VehicleRegistrationNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_VehicleRegistrationNumber" rule="none"/>
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SourceSystem" rule="none"/>
+							<mapping rdr="CONSUMER_NON_CONSUMER" ecm="ConsumerNonConsumer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_ConsumerNonConsumer" rule="none"/>
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SecurityGroup" rule="none"/>
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DocumentOwner" rule="none"/>
+						</output>
+
+				</lookup>
+			</property>
+			<property symbolicname="ClientID" lookup="yes"	dependentOn="ClaimNumber" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_ARSCLAIM_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClaimNumber" ecm="ClaimNumber" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="yes" dbdatatype="String" rule="none" />							
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClaimNumber">
+							<mapping rdr="CLAIM_NUMBER" ecm="ClaimNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClaimNumber" rule="none"/>
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClientName" rule="none"/>
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClientID" rule="none"/>
+							<mapping rdr="COVER_NUMBER" ecm="CoverNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_CoverNumber" rule="none"/>
+							<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_RiskType" rule="none"/>
+							<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_InsurerPolicyNumber" rule="none"/>
+							<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_Insurer" rule="none"/>
+							<mapping rdr="DEPARTMENT_CODE" ecm="DepartmentCode" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DepartmentCode" rule="none"/>
+							<mapping rdr="POLICY_DEPARTMENT" ecm="PolicyDepartment" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_PolicyDepartment" rule="none"/>
+							<mapping rdr="CLAIMANT" ecm="Claimant" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_Claimant" rule="none"/>
+							<mapping rdr="CLAIM_TYPE" ecm="ClaimType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_ClaimType" rule="none"/>
+							<mapping rdr="DATE_OF_LOSS" ecm="DateofLoss" dbdatatype="Date" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DateofLoss" rule="none"/>
+							<mapping rdr="VEHICLE_REGISTRATION_NUMBER" ecm="VehicleRegistrationNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_VehicleRegistrationNumber" rule="none"/>
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SourceSystem" rule="none"/>
+							<mapping rdr="CONSUMER_NON_CONSUMER" ecm="ConsumerNonConsumer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_ConsumerNonConsumer" rule="none"/>
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SecurityGroup" rule="none"/>
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DocumentOwner" rule="none"/>
+							
+						
+						</output>
+
+				</lookup>
+			</property>
+			<property symbolicname="ClientName" lookup="yes" dependentOn="ClaimNumber" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_ARSCLAIM_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClaimNumber" ecm="ClaimNumber" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="no" dbdatatype="String" rule="none" />							
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClaimNumber">
+							<mapping rdr="CLAIM_NUMBER" ecm="ClaimNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClaimNumber" rule="none"/>
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClientName" rule="none"/>
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_ARS_ClientID" rule="none"/>
+							<mapping rdr="COVER_NUMBER" ecm="CoverNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_CoverNumber" rule="none"/>
+							<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_RiskType" rule="none"/>
+							<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_InsurerPolicyNumber" rule="none"/>
+							<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_Insurer" rule="none"/>
+							<mapping rdr="DEPARTMENT_CODE" ecm="DepartmentCode" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DepartmentCode" rule="none"/>
+							<mapping rdr="POLICY_DEPARTMENT" ecm="PolicyDepartment" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_PolicyDepartment" rule="none"/>
+							<mapping rdr="CLAIMANT" ecm="Claimant" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_Claimant" rule="none"/>
+							<mapping rdr="CLAIM_TYPE" ecm="ClaimType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_ClaimType" rule="none"/>
+							<mapping rdr="DATE_OF_LOSS" ecm="DateofLoss" dbdatatype="Date" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DateofLoss" rule="none"/>
+							<mapping rdr="VEHICLE_REGISTRATION_NUMBER" ecm="VehicleRegistrationNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_VehicleRegistrationNumber" rule="none"/>
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SourceSystem" rule="none"/>
+							<mapping rdr="CONSUMER_NON_CONSUMER" ecm="ConsumerNonConsumer" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_ConsumerNonConsumer" rule="none"/>
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_SecurityGroup" rule="none"/>
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_ARS_DocumentOwner" rule="none"/>
+						</output>
+				</lookup>
+			</property>
+			<property symbolicname="ARSClaimSubType" lookup="no" dependentOn="" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DateofDocument" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated_OR" requiredifcondition="condition_required_during_notEmailCreation_DateofDocument" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="Description" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="ActionRequired" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition=""	maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DiaryDate" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="rule_currentdatetime_DateofDocument" />
+			<property symbolicname="CoverNumber" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="RiskType" lookup="no" dependentOn="" readonly="true" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="InsurerPolicyNumber" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition=""	maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Insurer" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="DepartmentCode" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition=""	maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="PolicyDepartment" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="PolicyYear" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="2030" minvalue="1971" maxlength="" defaultvalue="" />
+			<property symbolicname="Claimant" lookup="no" dependentOn="" readonly="true" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="ClaimType" lookup="no" dependentOn="" readonly="true" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="DateofLoss" lookup="no" dependentOn="" readonly="true" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="VehicleRegistrationNumber" lookup="no" dependentOn="" readonly="true" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="SourceSystem" lookup="no" dependentOn="ClaimNumber" readonly="false" hidden="false" required="false" readonlyifcondition="condition_IE_readonly_forvalue_single" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="condition_required_forvalue_more" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true"/>
+			<property symbolicname="ConsumerNonConsumer" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			
+			<property symbolicname="DocumentStatus" lookup="no" dependentOn="" readonly="false"  hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="Indexed"/>
+			<property symbolicname="ScanDeviceName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDateTime" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDocID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Pages" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Source" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserFullName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="From" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="To" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="CarbonCopy" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Language" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			
+			<property symbolicname="SecurityGroup" lookup="no" dependentOn="ClaimNumber" readonly="true" hidden="true" required="true" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="DocumentOwner" lookup="no" dependentOn="ClaimNumber" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true"/>	
+		</class>
+		<class symbolicname="HBCorporateClient">
+			<property symbolicname="DocumentTitle" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_Source_equals_Email_during_create_DocumentTitle" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Validated" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="condition_readonly_IE_contains_Validated" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true">
+				<lookup spname="RDRDBUSR.USP_IE_GET_VALIDATED" condition="none">
+					<input>
+					<!-- NOTE: More than one rule name can be given seperated by comma The order of evaluation of the rules will be left to right -->
+						<mapping rdr="in_Validated" ecm="Validated" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						
+					</input>
+					<output mergedisplayvalueof="">
+						<mapping rdr="Validated" ecm="Validated" dbdatatype="String" updatetype="none" showinresultspage="false" label="lbl_IE_Validated" rule="none"/>
+						
+					</output>
+				</lookup>
+			</property>
+			<property symbolicname="ClientID" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBCORPORATECLIENT_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_SourceSystem" ecm="SourceSystem" mandatoryinSP="no" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*CORPORATE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClientID">
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem"	rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant"	rule="none" />
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+
+				</lookup>
+			</property>
+			<property symbolicname="ClientName" lookup="yes" dependentOn="ClientID" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBCORPORATECLIENT_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>							
+							<mapping rdr="in_SourceSystem" ecm="SourceSystem" mandatoryinSP="no" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*CORPORATE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClientID">
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="none" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem"	rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant"	rule="none" />
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+
+				</lookup>
+			</property>
+			<property symbolicname="HBCorporateClientSubType" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DateofDocument" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated_OR" requiredifcondition="condition_required_during_notEmailCreation_DateofDocument" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="Description" lookup="no" dependentOn="" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""  avoidmultieditapplytoall="true"/>
+			<property symbolicname="ActionRequired" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DiaryDate" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition=""	maxvalue="" minvalue="" maxlength="" defaultvalue="rule_currentdatetime_DateofDocument"/>
+			<property symbolicname="TimeSpent" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="SourceSystem" lookup="yes" dependentOn="ClientID" readonly="false" hidden="false" required="false" readonlyifcondition="condition_IE_readonly_forvalue_single" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="condition_required_forvalue_more" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true">
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBCORPORATECLIENT_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>							
+							<mapping rdr="in_SourceSystem" ecm="SourceSystem" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*CORPORATE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClientID">
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem"	rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant"	rule="none" />
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+
+				</lookup>
+			</property>
+			<property symbolicname="Consultant" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Administrator" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="ClientSegment" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			
+			<property symbolicname="DocumentStatus" lookup="no" dependentOn="" readonly="false"  hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="Indexed"/>
+			<property symbolicname="ScanDeviceName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDateTime" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDocID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Pages" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Source" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserFullName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="From" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="To" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="CarbonCopy" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Language" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			
+			<property symbolicname="SecurityGroup" lookup="no" dependentOn="ClientID" readonly="true" hidden="true" required="true" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="DocumentOwner" lookup="no" dependentOn="ClientID" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true"/>
+			<property symbolicname="PartyType" lookup="no" dependentOn="ClientID" readonly="true" hidden="true" required="true"	readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+		</class>
+		<class symbolicname="HBCorporatePolicy">
+			<property symbolicname="DocumentTitle" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_Source_equals_Email_during_create_DocumentTitle" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Validated" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="condition_readonly_IE_contains_Validated" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true">
+				<lookup spname="RDRDBUSR.USP_IE_GET_VALIDATED" condition="none">
+					<input>
+					<!-- NOTE: More than one rule name can be given seperated by comma The order of evaluation of the rules will be left to right -->
+						<mapping rdr="in_Validated" ecm="Validated" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						
+					</input>
+					<output mergedisplayvalueof="">
+						<mapping rdr="Validated" ecm="Validated" dbdatatype="String" updatetype="none" showinresultspage="false" label="lbl_IE_Validated" rule="none"/>
+						
+					</output>
+				</lookup>
+			</property>
+			<property symbolicname="CCDPolicyNumber" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBCORPORATEPOLICY_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_CCDPolicyNumber" ecm="CCDPolicyNumber" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*CORPORATE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="CCDPolicyNumber">
+							<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_RiskType" rule="none" />
+							<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_InsurerPolicyNumber"	rule="none" />
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="CCD_POLICY_NUMBER" ecm="CCDPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_CCDPolicyNumber"	rule="none" />
+							<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Insurer" rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem" rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant" rule="none" />
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+
+				</lookup>
+			</property>
+			<property symbolicname="ClientID" lookup="yes" dependentOn="CCDPolicyNumber" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBCORPORATEPOLICY_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_CCDPolicyNumber" ecm="CCDPolicyNumber" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="yes" dbdatatype="String" rule="none" />							
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*CORPORATE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="CCDPolicyNumber">
+							<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_RiskType" rule="none" />
+							<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_InsurerPolicyNumber"	rule="none" />
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="CCD_POLICY_NUMBER" ecm="CCDPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_CCDPolicyNumber"	rule="none" />
+							<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Insurer" rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem" rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant" rule="none" />
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+
+				</lookup>
+			</property>
+			<property symbolicname="ClientName" lookup="yes" dependentOn="CCDPolicyNumber" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBCORPORATEPOLICY_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_CCDPolicyNumber" ecm="CCDPolicyNumber" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*CORPORATE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="CCDPolicyNumber">
+							<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_RiskType" rule="none" />
+							<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_InsurerPolicyNumber"	rule="none" />
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="CCD_POLICY_NUMBER" ecm="CCDPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_CCDPolicyNumber"	rule="none" />
+							<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Insurer" rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem" rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant" rule="none" />
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+				</lookup>
+			</property>
+			<property symbolicname="HBCorporatePolicySubType" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DateofDocument" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated_OR" requiredifcondition="condition_required_during_notEmailCreation_DateofDocument" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="Description" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition=""	maxvalue="" minvalue="" maxlength="" defaultvalue=""  avoidmultieditapplytoall="true"/>
+			<property symbolicname="ActionRequired" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="DiaryDate" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="rule_currentdatetime_DateofDocument" />
+			<property symbolicname="TimeSpent" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="RiskType" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="InsurerPolicyNumber" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Insurer" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="PolicyYear" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="2030" minvalue="1971" maxlength="" defaultvalue=""/>
+			<property symbolicname="SourceSystem" lookup="no" dependentOn="CCDPolicyNumber" readonly="false" hidden="false" required="false" readonlyifcondition="condition_IE_readonly_forvalue_single" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="condition_required_forvalue_more" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Consultant" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Administrator" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="ClientSegment" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			
+			<property symbolicname="DocumentStatus" lookup="no" dependentOn="" readonly="false"  hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="Indexed"/>
+			<property symbolicname="ScanDeviceName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDateTime" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDocID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Pages" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Source" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserFullName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="From" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="To" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="CarbonCopy" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Language" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			
+			<property symbolicname="SecurityGroup" lookup="no" dependentOn="CCDPolicyNumber" readonly="true" hidden="true" required="true" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="DocumentOwner" lookup="no" dependentOn="CCDPolicyNumber" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true"/>
+			<property symbolicname="PartyType" lookup="no" dependentOn="ClientID" readonly="true" hidden="true" required="true"	readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+		</class>
+		<class symbolicname="HBCorporateClaim">
+			<property symbolicname="DocumentTitle" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_Source_equals_Email_during_create_DocumentTitle" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Validated" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="condition_readonly_IE_contains_Validated" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true">
+				<lookup spname="RDRDBUSR.USP_IE_GET_VALIDATED" condition="none">
+					<input>
+					<!-- NOTE: More than one rule name can be given seperated by comma The order of evaluation of the rules will be left to right -->
+						<mapping rdr="in_Validated" ecm="Validated" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						
+					</input>
+					<output mergedisplayvalueof="">
+						<mapping rdr="Validated" ecm="Validated" dbdatatype="String" updatetype="none" showinresultspage="false" label="lbl_IE_Validated" rule="none"/>
+						
+					</output>
+				</lookup>
+			</property>
+			<property symbolicname="ClaimNumber" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBCORPORATECLAIM_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClaimNumber" ecm="ClaimNumber" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*CORPORATE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClaimNumber">
+							<mapping rdr="CLAIMANT" ecm="Claimant" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_Claimant" rule="none" />
+							<mapping rdr="CLAIM_NUMBER" ecm="ClaimNumber" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClaimNumber" rule="none" />
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="CCD_POLICY_NUMBER" ecm="CCDPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_CCDPolicyNumber"	rule="none" />
+							<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_RiskType" rule="none" />
+							<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_InsurerPolicyNumber"	rule="none" />
+							<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Insurer" rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem" rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant" rule="none" /> 
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+
+				</lookup>
+			</property>
+			<property symbolicname="ClientID" lookup="yes" dependentOn="ClaimNumber" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""  >
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBCORPORATECLAIM_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClaimNumber" ecm="ClaimNumber" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="yes" dbdatatype="String" rule="none" />							
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*CORPORATE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClaimNumber">
+							<mapping rdr="CLAIMANT" ecm="Claimant" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_Claimant" rule="none" />
+							<mapping rdr="CLAIM_NUMBER" ecm="ClaimNumber" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClaimNumber" rule="none" />
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="CCD_POLICY_NUMBER" ecm="CCDPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_CCDPolicyNumber"	rule="none" />
+							<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_RiskType" rule="none" />
+							<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_InsurerPolicyNumber"	rule="none" />
+							<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Insurer" rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem" rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant" rule="none" /> 
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+				</lookup>
+			</property>
+			<property symbolicname="ClientName" lookup="yes" dependentOn="ClaimNumber" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBCORPORATECLAIM_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClaimNumber" ecm="ClaimNumber" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*CORPORATE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClaimNumber">
+							<mapping rdr="CLAIMANT" ecm="Claimant" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_Claimant" rule="none" />
+							<mapping rdr="CLAIM_NUMBER" ecm="ClaimNumber" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClaimNumber" rule="none" />
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="CCD_POLICY_NUMBER" ecm="CCDPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_CCDPolicyNumber"	rule="none" />
+							<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_RiskType" rule="none" />
+							<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_InsurerPolicyNumber"	rule="none" />
+							<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Insurer" rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem" rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant" rule="none" /> 
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+
+				</lookup>
+			</property>
+			<property symbolicname="HBCorporateClaimSubType" lookup="no" dependentOn="" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DateofDocument" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated_OR" requiredifcondition="condition_required_during_notEmailCreation_DateofDocument" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="Description" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""  avoidmultieditapplytoall="true"/>
+			<property symbolicname="ActionRequired" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DiaryDate" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="rule_currentdatetime_DateofDocument" />
+			<property symbolicname="TimeSpent" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="CCDPolicyNumber" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="RiskType" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="InsurerPolicyNumber" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Insurer" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="PolicyYear" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="2030" minvalue="1971" maxlength="" defaultvalue="" />
+			<property symbolicname="Claimant" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="SourceSystem" lookup="no" dependentOn="ClaimNumber" readonly="false" hidden="false" required="false" readonlyifcondition="condition_IE_readonly_forvalue_single" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="condition_required_forvalue_more" maxvalue="" minvalue="" maxlength="" defaultvalue=""  noclearlookup="yes" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Consultant" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Administrator" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="ClientSegment" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			
+			<property symbolicname="DocumentStatus" lookup="no" dependentOn="" readonly="false"  hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="Indexed"/>
+			<property symbolicname="ScanDeviceName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDateTime" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDocID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Pages" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Source" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserFullName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="From" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="To" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="CarbonCopy" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Language" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			
+			<property symbolicname="SecurityGroup" lookup="no" dependentOn="ClaimNumber" readonly="true" hidden="true" required="true" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="DocumentOwner" lookup="no" dependentOn="ClaimNumber" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true"/>
+			<property symbolicname="PartyType" lookup="no" dependentOn="ClientID" readonly="true" hidden="true" required="true"	readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+		</class>
+		<class symbolicname="HBIndividualClient">
+			<property symbolicname="DocumentTitle" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_Source_equals_Email_during_create_DocumentTitle" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Validated" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="condition_readonly_IE_contains_Validated" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true">
+				<lookup spname="RDRDBUSR.USP_IE_GET_VALIDATED" condition="none">
+					<input>
+					<!-- NOTE: More than one rule name can be given seperated by comma The order of evaluation of the rules will be left to right -->
+						<mapping rdr="in_Validated" ecm="Validated" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						
+					</input>
+					<output mergedisplayvalueof="">
+						<mapping rdr="Validated" ecm="Validated" dbdatatype="String" updatetype="none" showinresultspage="false" label="lbl_IE_Validated" rule="none"/>
+						
+					</output>
+				</lookup>
+			</property>
+			<property symbolicname="ClientID" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBINDIVIDUALCLIENT_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_SourceSystem" ecm="SourceSystem" mandatoryinSP="no" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*INDIVIDUAL" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClientID">
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="DATE_OF_BIRTH" ecm="DateofBirth" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_DateofBirth"	rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem" rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant" rule="none" />
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+
+				</lookup>
+			</property>		
+			<property symbolicname="ClientName" lookup="yes" dependentOn="ClientID" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBINDIVIDUALCLIENT_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_SourceSystem" ecm="SourceSystem" mandatoryinSP="no" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*INDIVIDUAL" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClientID">
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="none" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="DATE_OF_BIRTH" ecm="DateofBirth" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_DateofBirth"	rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem" rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant" rule="none" />
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />							
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+				</lookup>
+			</property>					
+			<property symbolicname="HBIndividualClientSubType" lookup="no" dependentOn="" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DateofDocument" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated_OR" requiredifcondition="condition_required_during_notEmailCreation_DateofDocument" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="Description" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="ActionRequired" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DiaryDate" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="rule_currentdatetime_DateofDocument" />
+			<property symbolicname="TimeSpent" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="SourceSystem" lookup="yes" dependentOn="ClientID" readonly="false" hidden="false" required="false" readonlyifcondition="condition_IE_readonly_forvalue_single" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="condition_required_forvalue_more" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true">
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBINDIVIDUALCLIENT_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_SourceSystem" ecm="SourceSystem" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*INDIVIDUAL" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="ClientID">
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="DATE_OF_BIRTH" ecm="DateofBirth" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_DateofBirth"	rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem" rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant" rule="none" />
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />														
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+				</lookup>
+			</property>		
+			<property symbolicname="DateofBirth" lookup="no" dependentOn="" readonly="true" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Consultant" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Administrator" lookup="no" dependentOn="" readonly="true" hidden="true" required="true" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="ClientSegment" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			
+			<property symbolicname="DocumentStatus" lookup="no" dependentOn="" readonly="false"  hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="Indexed"/>
+			<property symbolicname="ScanDeviceName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDateTime" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDocID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Pages" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Source" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserFullName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="From" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="To" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="CarbonCopy" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Language" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			
+			<property symbolicname="SecurityGroup" lookup="no" dependentOn="ClientID" readonly="true" hidden="true" required="true" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="DocumentOwner" lookup="no" dependentOn="ClientID" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true"/>
+			<property symbolicname="PartyType" lookup="no" dependentOn="ClientID" readonly="true" hidden="true" required="true"	readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+		</class>
+		<class symbolicname="HBIndividualPolicy">
+			<property symbolicname="DocumentTitle" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_Source_equals_Email_during_create_DocumentTitle" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Validated" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="condition_readonly_IE_contains_Validated" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true">
+				<lookup spname="RDRDBUSR.USP_IE_GET_VALIDATED" condition="none">
+					<input>
+					<!-- NOTE: More than one rule name can be given seperated by comma The order of evaluation of the rules will be left to right -->
+						<mapping rdr="in_Validated" ecm="Validated" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						
+					</input>
+					<output mergedisplayvalueof="">
+						<mapping rdr="Validated" ecm="Validated" dbdatatype="String" updatetype="none" showinresultspage="false" label="lbl_IE_Validated" rule="none"/>
+						
+					</output>
+				</lookup>
+			</property>
+			<property symbolicname="CCDPolicyNumber" lookup="yes" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBINDIVIDUALPOLICY_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_CCDPolicyNumber" ecm="CCDPolicyNumber" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*INDIVIDUAL" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="CCDPolicyNumber">
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_InsurerPolicyNumber"	rule="none" />
+							<mapping rdr="DATE_OF_BIRTH" ecm="DateofBirth" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_DateofBirth" rule="none" />
+							<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_RiskType" rule="none" />
+							<mapping rdr="CCD_POLICY_NUMBER" ecm="CCDPolicyNumber" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_CCDPolicyNumber" rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Insurer" rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem" rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant" rule="none" />
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+
+				</lookup>
+			</property>			
+			<property symbolicname="ClientID" lookup="yes" dependentOn="CCDPolicyNumber" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBINDIVIDUALPOLICY_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_CCDPolicyNumber" ecm="CCDPolicyNumber" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*INDIVIDUAL" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="CCDPolicyNumber">
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_InsurerPolicyNumber"	rule="none" />
+							<mapping rdr="DATE_OF_BIRTH" ecm="DateofBirth" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_DateofBirth" rule="none" />
+							<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_RiskType" rule="none" />
+							<mapping rdr="CCD_POLICY_NUMBER" ecm="CCDPolicyNumber" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_CCDPolicyNumber" rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Insurer" rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem" rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant" rule="none" />
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+				</lookup>
+			</property>	
+			<property symbolicname="ClientName" lookup="yes" dependentOn="CCDPolicyNumber" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" >
+				<lookup spname="RDRDBUSR.USP_IE_GET_HBINDIVIDUALPOLICY_DTL" condition="none">
+						<input>
+							<!--
+								NOTE: More than one rule name can be given seperated by comma The
+								order of evaluation of the rules will be left to right
+							-->
+							<mapping rdr="in_CCDPolicyNumber" ecm="CCDPolicyNumber" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientID" ecm="ClientID" mandatoryinSP="no" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ClientName" ecm="ClientName" mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_ObjectStoreCode" ecm="*value*EMEA101001"	mandatoryinSP="yes" dbdatatype="String" rule="none" />
+							<mapping rdr="in_CountryofOwnership" ecm="*value*IE" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+							<mapping rdr="in_PartyType" ecm="*value*INDIVIDUAL" mandatoryinSP="yes" dbdatatype="String" rule="none"/>
+						</input>
+						<output mergedisplayvalueof="CCDPolicyNumber">
+							<mapping rdr="CLIENT_NAME" ecm="ClientName" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_ClientName" rule="none" />
+							<mapping rdr="INSURER_POLICY_NUMBER" ecm="InsurerPolicyNumber" dbdatatype="String" updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_InsurerPolicyNumber"	rule="none" />
+							<mapping rdr="DATE_OF_BIRTH" ecm="DateofBirth" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_DateofBirth" rule="none" />
+							<mapping rdr="RISK_TYPE" ecm="RiskType" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_RiskType" rule="none" />
+							<mapping rdr="CCD_POLICY_NUMBER" ecm="CCDPolicyNumber" dbdatatype="String"	updatetype="overwrite" showinresultspage="true" label="lbl_IE_HB_CCDPolicyNumber" rule="none" />
+							<mapping rdr="CLIENT_ID" ecm="ClientID" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientID"	rule="none" />
+							<mapping rdr="INSURER" ecm="Insurer" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Insurer" rule="none" />
+							<mapping rdr="SOURCE_SYSTEM" ecm="SourceSystem" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SourceSystem" rule="none" />
+							<mapping rdr="CONSULTANT" ecm="Consultant" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Consultant" rule="none" />
+							<mapping rdr="ADMINISTRATOR" ecm="Administrator" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_Administrator" rule="none" />
+							<mapping rdr="CLIENT_SEGMENT" ecm="ClientSegment" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_ClientSegment" rule="none" />
+							<mapping rdr="SECURITY_GROUP" ecm="SecurityGroup" dbdatatype="String"	updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_SecurityGroup" rule="none" />
+							<mapping rdr="DOC_OWNER" ecm="DocumentOwner" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_DocumentOwner"	rule="none" />
+							<mapping rdr="PARTY_TYPE" ecm="PartyType" dbdatatype="String" updatetype="overwrite" showinresultspage="false" label="lbl_IE_HB_PartyType"	rule="none" />
+						</output>
+
+				</lookup>
+			</property>	
+			<property symbolicname="HBIndividualPolicySubType" lookup="no" dependentOn="" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DateofDocument" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated_OR" requiredifcondition="condition_required_during_notEmailCreation_DateofDocument" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="Description" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""  avoidmultieditapplytoall="true"/>
+			<property symbolicname="ActionRequired" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" />
+			<property symbolicname="DiaryDate" lookup="no" dependentOn="" readonly="false" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="rule_currentdatetime_DateofDocument" />
+			<property symbolicname="TimeSpent" lookup="no" dependentOn="" readonly="false" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="RiskType" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="InsurerPolicyNumber" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Insurer" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="SourceSystem" lookup="no" dependentOn="CCDPolicyNumber" readonly="false" hidden="false" required="false" readonlyifcondition="condition_IE_readonly_forvalue_single" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="condition_required_forvalue_more" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true"/>
+			<property symbolicname="DateofBirth" lookup="no" dependentOn="" readonly="true" hidden="false" required="false" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Consultant" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="Administrator" lookup="no" dependentOn="" readonly="true" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="ClientSegment" lookup="no" dependentOn="" readonly="true" hidden="false" required="true" readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			
+			<property symbolicname="DocumentStatus" lookup="no" dependentOn="" readonly="false"  hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="Indexed"/>
+			<property symbolicname="ScanDeviceName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDateTime" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="ScanDocID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Pages" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Source" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserFullName" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="UserID" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="From" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="To" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="CarbonCopy" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			<property symbolicname="Language" lookup="no" dependentOn="" readonly="false" hidden="true" required="false" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue=""/>
+			
+			<property symbolicname="SecurityGroup" lookup="no" dependentOn="CCDPolicyNumber" readonly="true" hidden="true" required="true" readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+			<property symbolicname="DocumentOwner" lookup="no" dependentOn="CCDPolicyNumber" readonly="false" hidden="false" required="true"	readonlyifcondition="" hiddenifcondition="condition_hidden_IE_contains_Validated" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" noclearlookup="yes" avoidmultieditapplytoall="true"/>
+			<property symbolicname="PartyType" lookup="no" dependentOn="ClientID" readonly="true" hidden="true" required="true"	readonlyifcondition="" hiddenifcondition="" requiredifcondition="" maxvalue="" minvalue="" maxlength="" defaultvalue="" avoidmultieditapplytoall="true"/>
+		</class>
+	</objectstore>
+</desktop>
+
+<conditions>
+<!--  NOTE: condition names should be unique , referto refers to ECM field which THIS or IN or OUT field the condition should be checked on,  identifier refers to the identifier used, condition value is the value to be checked
+e.g. if we want to check if ClientID contains 123 then set referto="IN_ClientID" identifier="contains" conditionvalue="123"
+mergewithconditions will be used if this condition needs to be merged with another condition. Mention condition name here. More than one condition names can be delimited by comma
+mergeoperator will be either AND or OR or NOT. If there are more than one conditions in mergewithconditions then this value should have the same number of operators delimited by comma
+for AND thisCondition AND mergecondition will give the result i.e. both should be true for result to be true
+identifier can be either one of the operations like isempty, isnotempty, contains, doesnotcontains, startswith, doesnotstartswith, endswith, doesnotendswith, equalto, notequalto, during (for transaction based), forvalue (based on number of results returned during lookup), or lookup (for conditional lookups)
+Also NOTE: when the identfier is during that means during specific operation. Only 4 operations are supported creation, noncreation
+This can be very useful for Germany implementation where they want the Properties to be readwrite only during creation and readonly otherwise
+identifier forvalue can have only 4 condition values i.e. conditionvalue is either single or more or empty or notempty
+
+EXAMPLE IS GIVEN BELOW - 
+<condition name="condition_value_contains_ClientName" referto="IN_ClientID" identifier="contains" conditionvalue="xyz" mergewithcondition="condition_xyz,condition_abc" mergeoperator="AND,OR"/> 
+ -->
+	<condition name="condition_readonly_during_update_Generic" referto="THIS" identifier="during" conditionvalue="noncreation" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_required_during_create_Generic" referto="THIS" identifier="during" conditionvalue="creation" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_hidden_during_create_Generic" referto="THIS" identifier="during" conditionvalue="creation" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_hidden_during_create_DateofDocument" referto="THIS" identifier="during" conditionvalue="creation" mergewithconditions="condition_Source_equals_Email_DateofDocument" mergeoperators="AND"/>
+	<condition name="condition_Source_equals_Email_DateofDocument" referto="IN_Source" identifier="equalto" conditionvalue="Email" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_required_during_notEmailCreation_DateofDocument" referto="THIS" identifier="during" conditionvalue="noncreation" mergewithconditions="condition_Source_Notequals_Email_DateofDocument" mergeoperators="OR"/>
+	<condition name="condition_Source_Notequals_Email_DateofDocument" referto="IN_Source" identifier="notequalto" conditionvalue="Email" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_required_forvalue_more_ContractNumber" referto="THIS" identifier="forvalue" conditionvalue="more" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_readonly_forvalue_notempty_ContractNumberExt" referto="THIS" identifier="forvalue" conditionvalue="notempty" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_readonly_forvalue_more_LOBName" referto="IN_LOBName" identifier="forvalue" conditionvalue="more" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_required_forvalue_more_LOBID" referto="IN_LOBID" identifier="forvalue" conditionvalue="more" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_required_forvalue_more_LOBDetailName" referto="THIS" identifier="forvalue" conditionvalue="more" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_required_forvalue_more_LOBDetailID" referto="THIS" identifier="forvalue" conditionvalue="more" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_forvalue_LOBName_Empty" referto="IN_LOBName" identifier="forvalue" conditionvalue="empty" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_forvalue_LOBID_Empty" referto="IN_LOBID" identifier="forvalue" conditionvalue="empty" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_Source_equals_Email_during_create_DocumentTitle" referto="IN_Source" identifier="equalto" conditionvalue="Email" mergewithconditions="condition_hidden_during_create_Generic" mergeoperators="AND"/>
+	<condition name="condition_required_forvalue_more" referto="THIS" identifier="forvalue" conditionvalue="more" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_readonly_forvalue_single" referto="THIS" identifier="forvalue" conditionvalue="single" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_hidden_during_NotANewSearch_Generic" referto="THIS" identifier="during" conditionvalue="notanewsearch" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_required_forvalue_MandA" referto="IN_LegalSubType" identifier="equalto" conditionvalue="Mergers &amp; Acquisitions" mergewithconditions="condition_required_forvalue_CC" mergeoperators="OR"/>
+	<condition name="condition_required_forvalue_CC" referto="IN_LegalSubType" identifier="equalto" conditionvalue="Commercial Contracts" mergewithconditions="" mergeoperators="" />
+	<condition name="condition_hidden_PTP_contains_Validated" referto="IN_Validated" identifier="equalto" conditionvalue="No" mergewithconditions="" mergeoperators=""/>
+		
+	<condition name="condition_hidden_VendorStatus_contains_No" referto="IN_VendorStatus" identifier="equalto" conditionvalue="Active" mergewithconditions="condition_hidden_PTP_contains_Validated" mergeoperators="OR"/>
+	<condition name="condition_hidden_VendorStatus_contains_Yes" referto="IN_VendorStatus" identifier="equalto" conditionvalue="Inactive/New" mergewithconditions="condition_hidden_PTP_contains_Validated" mergeoperators="OR"/>
+	
+	<condition name="condition_readonly_PTP_contains_Validated" referto="IN_Validated" identifier="equalto" conditionvalue="Yes" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_readonly_forvalue_single_SETID" referto="IN_SetID" identifier="forvalue" conditionvalue="single" mergewithconditions="" mergeoperators=""/>
+	
+	<condition name="condition_Action_equals_Reassign" referto="IN_Action" identifier="equalto" conditionvalue="Reassign" mergewithconditions="condition_Action_equals_Complete" mergeoperators="OR"/>
+	<condition name="condition_Action_equals_Terminate" referto="IN_Action" identifier="equalto" conditionvalue="Terminate" mergewithconditions="condition_Action_equals_Complete" mergeoperators="OR"/>
+	<condition name="condition_Action_equals_Complete" referto="IN_Action" identifier="equalto" conditionvalue="Complete" mergewithconditions="condition_hidden_for_Action_empty" mergeoperators="OR"/>
+
+	
+	<condition name="condition_Action_equals_Complete_AP" referto="IN_Action" identifier="equalto" conditionvalue="Complete" mergewithconditions="condition_Action_equals_Reassign" mergeoperators="OR"/>
+	<condition name="condition_Action_equals_Reassign_AP" referto="IN_Action" identifier="equalto" conditionvalue="Reassign" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_Action_equals_Complete_mandatory_ApprovalPath" referto="IN_Action" identifier="equalto" conditionvalue="Complete" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_Action_equals_Terminate_AP" referto="IN_Action" identifier="equalto" conditionvalue="Terminate" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_Approval_Path_equals_Email" referto="IN_ApprovalPathRequired" identifier="equalto" conditionvalue="Email" mergewithconditions="condition_Approval_Path_equals_None,condition_hidden_for_Action_empty" mergeoperators="OR,OR"/>
+	<condition name="condition_Approval_Path_equals_None" referto="IN_ApprovalPathRequired" identifier="equalto" conditionvalue="None" mergewithconditions="condition_hidden_during_Terminate" mergeoperators="OR"/>
+	<condition name="condition_Approval_Path_equals_Workflow" referto="IN_ApprovalPathRequired" identifier="equalto" conditionvalue="Workflow" mergewithconditions="condition_hidden_during_Terminate,condition_hidden_for_Action_empty" mergeoperators="OR,OR"/>
+	<condition name="condition_Action_equals_Complete_hide" referto="IN_Action" identifier="equalto" conditionvalue="Complete" mergewithconditions="condition_Action_equals_Terminate" mergeoperators="OR"/>
+	
+	<condition name="condition_ApprovalResponse_equals_Reject" referto="IN_ApprovalResponse" identifier="equalto" conditionvalue="Reject" mergewithconditions="" mergeoperators=""/>
+	
+	<condition name="condition_Required_Exception_Reason_EMEA" referto="IN_ReassignInbasket" identifier="equalto" conditionvalue="AP Exception Inbasket EMEA" mergewithconditions="condition_Required_Exception_Reason_LATAM" mergeoperators="OR"/>
+	<condition name="condition_Required_Exception_Reason_LATAM" referto="IN_ReassignInbasket" identifier="equalto" conditionvalue="AP Exception Inbasket LATAM" mergewithconditions="" mergeoperators=""/>
+	
+	<condition name="condition_hide_Exception_Reason_EMEA" referto="IN_ReassignInbasket" identifier="notequalto" conditionvalue="AP Exception Inbasket EMEA" mergewithconditions="condition_Action_equals_Terminate" mergeoperators="OR"/>
+	<condition name="condition_hide_Exception_Reason_LATAM" referto="IN_ReassignInbasket" identifier="notequalto" conditionvalue="AP Exception Inbasket LATAM" mergewithconditions="" mergeoperators=""/>
+	
+	<condition name="condition_hide_ApprovalResponse_equals_Query" referto="IN_ApprovalResponse" identifier="equalto" conditionvalue="Query" mergewithconditions="condition_Action_equals_Complete" mergeoperators="AND"/>
+	<condition name="condition_hide_ApprovalResponse_equals_Approve" referto="IN_ApprovalResponse" identifier="equalto" conditionvalue="Approve" mergewithconditions="condition_Action_equals_Complete" mergeoperators="AND"/>
+	
+	<condition name="condition_hide_RejectReason" referto="IN_Action" identifier="equalto" conditionvalue="Terminate" mergewithconditions="condition_hide_ApprovalResponse_equals_Approve,condition_hide_ApprovalResponse_equals_Query,condition_hidden_for_ApprovalResponse_empty,condition_hidden_during_Terminate" mergeoperators="OR,OR,OR,OR"/>
+	
+	<condition name="condition_ApprovalResponse_equals_Approve" referto="IN_ApprovalResponse" identifier="equalto" conditionvalue="Approve" mergewithconditions="condition_ApprovalResponse_equals_Query" mergeoperators="OR"/>
+	<condition name="condition_ApprovalResponse_equals_Query" referto="IN_ApprovalResponse" identifier="equalto" conditionvalue="Query" mergewithconditions="condition_Action_equals_Terminate" mergeoperators="OR"/>
+	
+	<condition name="condition_hidden_during_Complete" referto="IN_Action" identifier="equalto" conditionvalue="Complete" mergewithconditions="condition_hidden_for_Action_empty" mergeoperators="OR"/>	
+	<condition name="condition_hidden_during_Terminate" referto="IN_Action" identifier="equalto" conditionvalue="Terminate" mergewithconditions="condition_hidden_during_Reassign" mergeoperators="OR"/>
+	<condition name="condition_hidden_during_Reassign" referto="IN_Action" identifier="equalto" conditionvalue="Reassign" mergewithconditions="condition_hidden_for_Action_empty" mergeoperators="OR"/>
+	
+	<condition name="condition_hidden_during_SplitValue_1" referto="IN_SplitValue" identifier="equalto" conditionvalue="1" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_hidden_during_SplitValue_2" referto="IN_SplitValue" identifier="equalto" conditionvalue="2" mergewithconditions="condition_hidden_during_SplitValue_1" mergeoperators="or"/>
+	<condition name="condition_hidden_during_SplitValue_3" referto="IN_SplitValue" identifier="equalto" conditionvalue="3" mergewithconditions="condition_hidden_during_SplitValue_2" mergeoperators="or"/>
+	<condition name="condition_hidden_during_SplitValue_4" referto="IN_SplitValue" identifier="equalto" conditionvalue="4" mergewithconditions="condition_hidden_during_SplitValue_3" mergeoperators="or"/>
+	
+	<condition name="condition_hidden_for_Action_empty" referto="IN_Action" identifier="isempty" conditionvalue="empty" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_hidden_for_ApprovalResponse_empty" referto="IN_ApprovalResponse" identifier="isempty" conditionvalue="empty" mergewithconditions="" mergeoperators=""/>
+	
+	<!-- UKN BY Venkat -->
+	<condition name="condition_readonly_forvalue_SourceSystem_single" referto="IN_SourceSystem" identifier="forvalue" conditionvalue="single" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_hidden_during_NotViewProp_NotANewSearch_Generic" referto="THIS" identifier="during" conditionvalue="notanewsearch" mergewithconditions="condition_required_during_create_Generic" mergeoperators="AND"/>
+	<condition name="condition_readonly_forvalue_single_UKNAT_SECURITYGROUP" referto="THIS" identifier="forvalue" conditionvalue="single" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_required_forvalue_more_SecurityGroup" referto="in_SecurityGroup" identifier="forvalue" conditionvalue="more" mergewithconditions="" mergeoperators=""/>
+	<!-- UKN BY Venkat -->
+	
+	<!--Start : IE -->
+	<condition name="condition_IE_readonly_forvalue_single" referto="THIS" identifier="forvalue" conditionvalue="single" mergewithconditions="" mergeoperators="" />
+	<condition name="condition_IE_readonly_forvalue_Empty" referto="THIS" identifier="isempty" conditionvalue="empty" mergewithconditions="" mergeoperators="" />
+	<condition name="condition_readonly_IE_contains_Validated" referto="IN_Validated" identifier="equalto" conditionvalue="Yes" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_hidden_IE_contains_Validated" referto="IN_Validated" identifier="equalto" conditionvalue="No" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_hidden_IE_contains_Validated_OR" referto="IN_Validated" identifier="equalto" conditionvalue="No" mergewithconditions="condition_hidden_during_create_DateofDocument" mergeoperators="OR"/>
+	<!--End : IE -->
+	
+	<!--Start : ED -->
+	<condition name="condition_ED_readonly_forvalue_single" referto="THIS" identifier="forvalue" conditionvalue="single" mergewithconditions="" mergeoperators="" />
+	<!--END : ED -->
+	<!-- Start BE -->
+	<condition name="condition_readonly_BE_contains_Validated" referto="IN_Validated" identifier="equalto" conditionvalue="Yes" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_hidden_BE_contains_Validated" referto="IN_Validated" identifier="equalto" conditionvalue="No" mergewithconditions="" mergeoperators=""/>
+	<condition name="condition_hidden_BE_during_create_DateofDocument" referto="THIS" identifier="during" conditionvalue="creation" mergewithconditions="condition_Source_BE_equals_Email_DateofDocument,condition_hidden_BE_contains_Validated" mergeoperators="AND,OR"/>
+	<condition name="condition_Source_BE_equals_Email_DateofDocument" referto="IN_Source" identifier="equalto" conditionvalue="Email" mergewithconditions="" mergeoperators=""/><!-- END BE -->
+	<!--END BE -->
+	</conditions>
+<rules>
+<!-- NOTE :  all the rules given below are for example and the implementaion is already done. The actual rules have to be configured based on implementation -->
+<!-- rulename must be unique for each rule if there are similar rules u can either use the same rule or copy the rule with another name
+
+ruletype must be one of the rules supported i.e. usemappedvalue, merge, removeprefix, removesuffix, addprefix, addsuffix, trimleadingchars, trimtrailingchars,addleadingchars, addtrailingchars, substring, replace, truncatetomaxlen, currentdatetime, ifemptyputconstvalue
+NOTE: The rules (ruletype) defined here are very limited. More ruletypes can be introduced in future but the logic for the same has to be implemented at that point in time
+
+-->
+	<rule rulename="merge_AAA" ruletype="merge" >
+		<delimtouseformerge>_</delimtouseformerge>
+		<!-- value can either start with IN_ to indicate ECM Property Name to be taken from Input or OUT_to ECM Property Name to be taken from Output or *value* to indicate const value  -->
+	    <in order="1" value="IN_VVV"/>
+	    <in order="2" value="OUT_YYYY"/>
+	    <in order="3" value="*value*ConstantValue"/>
+	</rule>
+	<rule rulename="usemappedvalue_Party" ruletype="usemappedvalue" >	
+		<map ecmvalue="Client" rdrvalue="CLIENT"/>	
+		<map ecmvalue="Carrier" rdrvalue="CARRIER"/>
+		<map ecmvalue="Intermediary" rdrvalue="INTERMEDIARY"/>
+		<map ecmvalue="Assured" rdrvalue="ASSURED"/>
+		<map ecmvalue="Lawyer" rdrvalue="LAWYER"/>
+		<map ecmvalue="ReAssured" rdrvalue="REASSURED"/>	
+		<map ecmvalue="Leasing" rdrvalue="LEASING"/>
+		<map ecmvalue="ExpertMotor" rdrvalue="EXPERTMOTOR"/>
+		<map ecmvalue="Adjuster" rdrvalue="ADJUSTER"/>
+		<map ecmvalue="Garage" rdrvalue="GARAGE"/>		
+	</rule>
+	<rule rulename="removeprefix_BBBB" ruletype="removeprefix" >
+		<rulevalue value ="EE"/>
+	</rule>
+	<rule rulename="removesuffix_BBBB" ruletype="removesuffix" >
+		<rulevalue value ="EE"/>
+	</rule>
+	<rule rulename="addprefix_BBBB" ruletype="addprefix" >
+		<rulevalue value ="EE"/>
+	</rule>
+	<rule rulename="addsuffix_BBBB" ruletype="addsuffix" >
+		<rulevalue value ="EE"/>
+	</rule>
+	<rule rulename="trimleadingchars_CCCC" ruletype="trimleadingchars" >
+		<rulevalue value ="0"/>
+	</rule>
+	<rule rulename="trimtrailingchars_CCCC" ruletype="trimtrailingchars" >
+		<rulevalue value ="0"/>
+	</rule>
+	<rule rulename="addleadingchars_CCCC" ruletype="addleadingchars" >
+		<rulevalue value ="0" numchars="5"/>
+	</rule>
+	<rule rulename="addtrailingchars_CCCC" ruletype="addtrailingchars" >
+		<rulevalue value ="0" numchars="7"/>
+	</rule>
+	<rule rulename="substring_DDDD" ruletype="substring" >
+		<poistion start ="0" end="7"/>
+	</rule>
+	<rule rulename="truncatetomaxlen_EEEE" ruletype="truncatetomaxlen" >
+		<truncate side ="left" maxlen="7"/>
+	</rule>
+	<rule rulename="replace_KKKK" ruletype="replace" >
+		<replace what ="XXX" by="YYYY"/>
+	</rule>
+	<rule rulename="currentdatetime_DateofDocument" ruletype="currentdatetime" >
+		<date format ="yyyy-MM-dd HH:mm:ss" timezoneoffset=""/>
+	</rule>
+	<rule rulename="currentdatetime_MMMM" ruletype="currentdatetime" >
+		<date format ="yyyy-MM-dd HH:mm:ss" timezoneoffset=""/>
+	</rule>
+	<rule rulename="ifemptyputconstvalue_NNNNN" ruletype="ifemptyputconstvalue" >
+		<rulevalue value="DDDDDD" />
+	</rule>	
+</rules>
+<validationrules>
+  <validationrule name="numerical_add_totalamount" type="numerical" >
+    <params names="Gross1~Gross2~Gross3~Gross4~Gross5" storeresults="TotalAmount"/>
+  </validationrule>
+  
+  <validationrule name="compare_TotalAmount" type="compare" >
+    <params names="TotalAmount" comparewith="Amount" operator="eq" errormsg="lblErrorMsg_Comparewith_Net"/>
+  </validationrule>
+  
+     <validationrule name="compare_Validated" type="compare" >
+    <params names="Validated" comparewith="Validated" operator="eq" errormsg="lblErrorMsg_Comparewith_Net"/>
+  </validationrule>
+</validationrules>
+
+
+<fndetails adminusername="VC9HpsB6cWfkPatmkFVBpw==" adminpwd="s79Yq0zpZOCybuB2jOsU1w==" encryptionkey="@ECM_EDS_SERVICE" />
+</rdrconfigs>

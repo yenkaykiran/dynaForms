@@ -27,6 +27,10 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', 'AjaxService
         }
     };
     
+    AjaxService.call($scope.restUrl + 'attributes', 'GET').success(function(data, status, headers, config) {
+        $scope.attributes = data;
+    });
+    
     $scope.xml2Html = function() {
         var request = {
             "xml" : $scope.xml
