@@ -45,6 +45,15 @@ dynaFormsApp.controller('HomeController', [ '$scope', '$rootScope', 'AjaxService
     };
     
     $scope.html2Xml = function() {
+		var allSelects = angular.element("select");
+		var size = allSelects.length;
+		for(var i=0;i<size;i++) {
+			if(!allSelects[i].value || allSelects[i].value == "? string:none ?") {
+				alert('one or more dropdowns are not populated, please fill them');
+				allSelects[i].focus();
+				break;
+			}
+		}
         $scope.modXml = '';
         AjaxService.call($scope.restUrl + 'xml', 'POST', $scope.nodes).success(function(data, status, headers, config) {
             $scope.modXml = data;
